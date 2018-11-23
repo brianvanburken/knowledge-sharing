@@ -1,4 +1,10 @@
 # Maybe don't use `Maybe`?
++++
+date = "2018-08-13"
+draft = false
+title = "Maybe don't use Maybe?"
+tags = [ "elm", "custom types", "maybe", "monads" ]
++++
 
 Your code could be littered with branches that result in invalid data and should
 never happen, but are allowed. We found such a case where we allowed multiple
