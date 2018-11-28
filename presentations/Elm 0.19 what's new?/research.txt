@@ -1,0 +1,102 @@
+Sources:
+
+https://korban.net/posts/elm/2018-08-22-elm-019-whats-new-install-upgrade/
+https://elm-lang.org/blog/small-assets-without-the-headache
+https://elm-lang.slack.com/
+https://discourse.elm-lang.org
+https://github.com/elm/compiler
+
+
+Notes:
+
+New CLI
+* Much better compile times (2 seconds reported for a 50K line code base).
+* The virtual-dom package now allows synchronous event handling, solving the issue with lost input due to fast typing, among other things. The sequence of sending an event from HTML, getting a call to update, then sending a value to a port and handling it on the JS side can now happen synchronously. Event handling is also more flexible.
+
+(,), (,,) etc => Tuple.pair
+Tuple limiet 3 argumenten 
+New package elm/parser -> Optimized during compilation
+
+No natives (joke American natives)
+
+Elm/browser (show map one on one with Html.program) + keyboard, mouse, viewport and animation support
+Exposing (every thing with (..) no longer allowed. Be explicit)
+No longer shadowing of names
+Elm/time (new API + timezones!)
+—optimize 
+Compiler Performance
+Stricter Record Update Syntax
+No infix operators (Removed User-Defined Operators)
+Local cache (not longer pull everything every time)
+* Finally, new escaping syntax for Unicode in strings: \u{00B1}.
+
+Html.Attributes.style i.p.v. list of tuples now key value arguments
+
+elm-package.json -> elm.json (direct dependencies and indirect (dependencies of dependencies)) + test dependencies (no longer separate file) + type
+Changes
+
+Functions Changed
+* String.toInt : String -> Maybe Int (not Result anymore)
+* String.toFloat : String -> Maybe Float (not Result anymore)
+* String.fromInt
+* String.fromFloat
+* Basics.toString becomes Debug.toString, String.fromInt, and String.fromFloat.
+* Basics.rem 451 10 becomes remainderBy 10 451
+* 451 % 10 becomes modBy 10 451
+* (,) becomes Tuple.pair
+* style : List (String, String) -> Attribute msg becomes String -> String -> Attribute msg
+* Html.beginnerProgram becomes Browser.sandbox.
+* Html.program becomes Browser.element and Browser.document.
+* 
+
+Modules Moved
+* Json.Encode and Json.Decode moved to elm/json
+* Time and Date moved to elm/time with a significantly improved API
+* Random moved to elm/random with a better implementation and a few new functions
+* Regex moved to elm/regex with a much clearer README
+
+Packages Moved
+* elm-lang/* moved to elm/*
+* evancz/url-parser moved to elm/url with a simpler and more flexible API
+* elm-tools/elm-parser moved to elm/parser with speed boost when compiling with the --optimize flag
+* elm/browser combines and simplifies the following 0.18 packages:
+    * elm-lang/navigation with smoother APIs
+    * elm-lang/dom with ability to get node positions and dimensions.
+    * elm-lang/mouse with decoders
+    * elm-lang/window
+    * elm-lang/keyboard uses decoders like this
+    * elm-lang/page-visibility
+    * elm-lang/animation-frame
+
+Functions Removed
+* uncurry
+* curry
+* flip
+* (!)
+* Rem
+
+* String.map/foldl/foldr/uncons now consider Char to be a Unicode codepoint rather than an UTF-16 byte.
+* String.toInt no longer recognises the 0x prefix.
+* List.foldr is 30% faster (which means that List.map, List.filter and List.appendare faster too).
+* Dict has 170% faster inserts and 30% faster removals
+* Set has comparable improvements to Dict as it is a thin wrapper around it.
+* Random functionality has speedups of 20% to X00% on different operations.
+* Char values and values of types like type Height = Height Float are unboxed (which makes equality checks faster, among other things).
+* The random number generator has been switched to PCG, which has better properties (https://github.com/elm/core/pull/778)
+* A number of bugs fixed in Array.
+* The virtual-dom package now allows synchronous event handling, solving the issue with lost input due to fast typing, among other things. The sequence of sending an event from HTML, getting a call to update, then sending a value to a port and handling it on the JS side can now happen synchronously. Event handling is also more flexible.
+* Some packages were moved from elm-lang to elm.
+* There is a new API for working with the DOM in the Browser.Dom package.
+* Basics.toString has been replaced with three functions to help cut down on some types of bugs: Debug.toString, String.fromInt, and String.fromFloat.
+* Html.beginnerProgram has been replaced with Browser.sandbox, while Html.programhas been superseded with Browser.element and Browser.document.
+* There is an improved API for Time and Date.
+* There is a simpler API in the url-parser package (which also got moved to elm/url).
+* Color module got removed.
+* A few functions were removed: flip, curry, uncurry, and rem.
+* A number of bugs fixed in Array.
+* The random number generator has been switched to PCG, which has better properties (https://github.com/elm/core/pull/778)
+* String.map/foldl/foldr/uncons now consider Char to be a Unicode codepoint rather than an UTF-16 byte.
+* String.toInt no longer recognises the 0x prefix.
+* Lastly, it's no longer necessary to maintain a separate elm.json in tests/ (everything is handled within the project's elm.json).
+
+
