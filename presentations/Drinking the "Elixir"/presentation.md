@@ -31,6 +31,10 @@ theme: Sketchnote,1
   - Fuzzy testing
 - Challenge! Morse
 
+NOTES:
+- In `iex` a list of digits can be presented as characters: [87, 97, 116, 63, 33] => 'Wat?!'
+  You could see its raw value using `i` in front
+
 
 ---
 
