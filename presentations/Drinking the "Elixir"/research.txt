@@ -1,3 +1,6 @@
 https://elixir-lang.org/
 https://phoenixframework.org/
 https://nerves-project.org/
+
+Notes: Elixir Enum library is eager. Use Streams to increase performance and
+combine transformations.
