@@ -1,10 +1,10 @@
 # BEMIT, CSS! You're going Atomic!
 
-At Avisi we developed a few toolkit for projects to achieve a high reusability
+At Avisi we developed a few toolkits for projects to achieve a high reusability
 in front-end components.
 
 BEMIT is a combination of two conventions [*BEM*](http://getbem.com/) and
-[*IT*CSS](https://itcss.io/). These gives us some answers to problems we were
+[*IT*CSS](https://itcss.io/). These give us some answers to problems we were
 facing. How do we write CSS? BEM! How do we structure our CSS? ITCSS! Both gave
 us the power to write awesome toolkits that are used in multiple projects.
 
@@ -18,10 +18,10 @@ convention for writing CSS. There are many tutorials to be found on the web so
 below I'll explain it simply using images. If you want more information you can
 visit the official website at http://getbem.com/.
 
-I find that, to explain something modular, [LEGO™](https://www.lego.com/) is
-always an easy to understand concept.
+I find that to explain something modular, [LEGO™](https://www.lego.com/) is
+always an easy to understand the concept.
 
-So we start with something realy simple. A figure that we give it the block
+So we start with something really simple. A figure that we give it the block
 identifier `.minifig`. Our figure is by default the color blue.
 
 ![](minifig.png)
@@ -63,8 +63,8 @@ block and all elements change color to red.
 }
 ```
 
-Let's say we only want to change it's legs to red, but we don't want to change
-the whole figure to red. How do we do that? Well modifiers are not limited to
+Let's say we only want to change its legs to red, but we don't want to change
+the whole figure to red. How do we do that? Well, modifiers are not limited to
 the block. So we can use the `--red` modifier on the legs element and it changes
 to red!
 
@@ -82,7 +82,7 @@ to red!
 ```
 
 As you can see this a lot of selectors to write. But it gives you also a lot of
-power as we will see later on in this post. To mitigate the amount of selectors
+power as we will see later on in this post. To mitigate the number of selectors
 we write, we use the CSS preprocessor [SCSS](https://sass-lang.com/). SCSS allows
 us to write dynamic CSS with loops. So if a new color gets introduced, say green,
 we just add it to our list of possible colors and the CSS selectors containing
@@ -105,7 +105,7 @@ $colors: (
 }
 ```
 
-Modifiers make for a powerfull dynamic CSS. It allows us control the appearance
+Modifiers make for a powerful dynamic CSS. It allows us to control the appearance
 of elements without having to whole new blocks and elements. You can use them to
 make amazing components. Just like we could change the look our minifig into
 something of a different theme, maybe Batman! You get the idea.
@@ -114,11 +114,11 @@ something of a different theme, maybe Batman! You get the idea.
 
 ### Why did we choose BEM?
 
-There are many other to choose from like [SMACSS](https://smacss.com/) and
-[OCCS](http://oocss.org/). Out of our options we liked BEM the most for it's easy
+There are many others to choose from like [SMACSS](https://smacss.com/) and
+[OCCS](http://oocss.org/). Out of our options, we liked BEM the most for it's easy
 to understand semantic conventions. The users of our toolkit do not always have
 knowledge of writing CSS, so we have to provide a way to use the toolkit without
-having also to learn CSS. Further the style of write selectors fits with
+having also to learn CSS. Further, the style of write selectors fits with
 [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/).
 
 ## ITCSS?
@@ -127,7 +127,7 @@ ITCSS stands for *I*nverted *T*riangle *CSS*. It describes a way to organize our
 CSS files in a way to deal with CSS [specificity](http://cssspecificity.com/).
 
 ITCSS is agnostic of any other methodologies like BEM, SMACSS, or OOCSS. And stands
-on it's own. The triangle of ITCSS is broken down into a few layers that categorizes
+on its own. The triangle of ITCSS is broken down into a few layers that categorize
 the type of files placed in each layer. It’s important not to output any CSS in
 the first two layers as you will see from the concepts explained below.
 
@@ -150,13 +150,13 @@ any default styling, are left alone.
 Examples are like a simple `.wrapper` element, layout systems, or the media object
 known in the OOCSS methodology.
 
-*Components* – the layerfor UI components. Here we place the majority of our CSS.
+*Components* – the layer for UI components. Here we place the majority of our CSS.
 You place all your block components, following the BEM methodology, in this folder.
 An example is a button component. Which contains the button block, it's elements,
 and modifiers and is placed in a single file called `button.scss`. 
 
 *Utilities* – or alternatively called *Trumps*. This is the layer with the highest
-specificity. In this layer you can find the only instances where `!important` is
+specificity. In this layer, you can find the only instances where `!important` is
 allowed. An example would be a helper class to hide an element. Since the
 specificity of a selector called `.hidden`, which job is to set `display: none`,
 is not enough to overrule other selectors.
@@ -165,15 +165,15 @@ Below you can see, visually, how each layer is positioned in the inverted triang
 
 TODO: insert image
 
-In de root of the toolkit we have created folders that are the same name as the
+In the root of the toolkit, we have created folders that are the same name as the
 concepts of ITCSS. So there is a folder called settings, elements, etc.  Since
 we use SCSS, we have in the root of the toolkit a file called `index.scss` in
-which we import all the files in the subfolders. The order of imports correspond
+which we import all the files in the subfolders. The order of imports corresponds
 to the order of layers. So we start with importing settings, then tools, then
 generic and so on.
 
-If you are interested about the idea why watch the original designer, Harry Roberts,
-explain it in his video ["Managing CSS Projects with ITCSS"](https://www.youtube.com/watch?v=1OKZOV-iLj4)
+If you are interested in the idea why you can watch the original designer, Harry
+Roberts, explain it in his video ["Managing CSS Projects with ITCSS"](https://www.youtube.com/watch?v=1OKZOV-iLj4)
 
 ## So how do you use it with Atomic Design?
 
@@ -184,44 +184,44 @@ Molecules into organisms. Organisms into templates.
 We will take our Avisi toolkit, used on the [website](https://www.avisi.nl) and
 internal projects, as an example. Our designer starts the process with designing
 all the basic elements of the periodic table of HTML elements and atoms (you can
-read more about his process in subsequent blogposts [here](#TODO)). After the
-design process a design document is delivered.
+read more about his process in subsequent blog posts [here](#TODO)). After the
+design process, a design document is delivered.
 
 Based on his design document we start with extracting settings. Our toolkit has
 four primary colors, so those are defined as variables in a file called `colors.scss`
 placed in the folder `settings` and import it in our `index.scss` file so it
-becomes globally accesible in the toolkit. Same goes for fonts and other variables.
+becomes globally accessible in the toolkit. Same goes for fonts and other variables.
 
 We use [box-sizing](https://www.paulirish.com/2012/box-sizing-border-box-ftw/) and
-[normalize.css](https://necolas.github.io/normalize.css/) so set a consistent base
+[normalize.css](https://necolas.github.io/normalize.css/) to set a consistent base
 for all browsers to start from. Those go as separate files in the `generic` folder
 with corresponding imports in our index SCSS file.
 
 Then we look at the elements that have default styling in browsers, like the `p`
-element. In the design document there are styles defined like line height, font
-family, and font size. For each HTML element we create a file in `elements` folder
+element. In the design document, there are styles defined like line height, font
+family, and font size. For each HTML element, we create a file in `elements` folder
 and import them.
 
 ### Atom
-With a base for our toolkit set we start building the real heroes of the toolkit,
+With a base for our toolkit set, we start building the real heroes of the toolkit,
 the atoms!
 
 An atom is something really small. A few examples are buttons, search fields,
 labels, logo's, links etc. Using BEM we make create all these small atoms as
-block's. An easy example for an atom is a button. We created a file called
+blocks. An easy example of an atom is a button. We created a file called
 `button.scss` in the *components* folder and add our import under the components
 section int he `index.scss`.
 
-The button has some "behaviour" such as being visually displayed as a primary or
-secondary button. Also the button comes in four colors which are defined in our
+The button has some "behavior" such as being visually displayed as a primary or
+secondary button. Also, the button comes in four colors which are defined in our
 settings. So, as we talked about in our BEM introduction, we create a button block
 with a base styling which has no color. Then, using our primary colors, we enumerate
-through each color and create the apropiate modifiers. The primary and secondary
-version are also available as BEM modifiers. This means that the component has
+through each color and create the appropiate modifiers. The primary and secondary
+version is also available as BEM modifiers. This means that the component has
 6 possible combinations. This is based on 1 (`.button`) * 2 (`--secondary` and
 `--primary`) * 4 (`--blue` and the rest of the colors). This is just an example.
 In our toolkit the button can also be displayed as disabled and has four possible
-sized, thus creating even more options. As you can see BEM can be really powerfull!
+sized, thus creating even more options. As you can see BEM can be really powerful!
 
 ### Molecule
 
@@ -230,8 +230,8 @@ knows how it looks, but does not know where it is put. How do we say to button t
 it needs to the right of a search field? The answer is relatively simple. In a
 molecule, where atoms come together, you place position each element. Let's take
 a menu as an example. A menu is a collection of links. Each link knows how it looks
-and behaves and the menu knows how to position it's children, the links. If the
-menu where to change of direction, from default horizontal to vertical. The menu
+and behaves and the menu knows how to position its children, the links. If the
+menu were to change of direction, from default horizontal to vertical. The menu
 would receive a modifier that changes how it's children are positioned. In our
 toolkit molecules are defined in separate files within the `components` folder
 and follow BEM. Below is the HTML structure for our menu.
@@ -246,21 +246,22 @@ and follow BEM. Below is the HTML structure for our menu.
 ```
 
 As you can see, we allow the elements (`.menu__item`) under our menu to also be
-block on their own. This is not enforced by the BEM naming convention, but we
-want to have avoid [`div`-itis](https://csscreator.com/divitis). This is up to
-you to deceide.
+a block on their own. This is not enforced by the BEM naming convention, but we
+want to avoid [`div`-itis](https://csscreator.com/divitis). This is up to
+you to decide.
 
 ### Organisms
 
 Organisms are composed of multiple molecules together. Most of the time we have
-to write any CSS for this! Only HTML. In a few cases we have to write a block
+to write any CSS for this! Only HTML. In a few cases, we have to write a block
 with elements to position the molecules. An example would be the header. Our
 header is composed of the logo atom and menu molecule where the logo is
 positioned to the left and menu to the right. While a header is a common example
 I want to give one more where we can see the power of Atomic Design and BEMIT.
 
-One organism we use on our site is `tiles`. The tiles displays four links with
-titles and images. Below is you can see an example with content filled in.
+One organism we use on our site is `tiles`. The tiles component displays four
+links with titles and images. Below is you can see an example with content
+filled in.
 
 ![](#TODO)
 
@@ -300,11 +301,11 @@ the tile organism.
 </div>
 ```
 
-There are a few noticible thing to few here. Each tile is a molecule and thus
+There are a few notable things to few here. Each tile is a molecule and thus
 could be copied and used anywhere. Each tile has a content element that has a
 color which can be changed and a slope that could go down to the right, left, or
 no slope at all. 
-A important thing to notice is the `.tiles--2h2v` modifier. Because
+An important thing to notice is the `.tiles--2h2v` modifier. Because
 we use CSS grid we could change the entire positioning of elements for the
 organism by changing one modifier. In `2h2v` the `h` stands for horizontal and
 `v` for vertical. The `2` stands for elements to the left or right of the middle.
@@ -313,13 +314,13 @@ These modifiers are `2h2v`, `2v2h`, `4v` (shorthand for `2v2v`), `1h2v`, and
 `2h1v`. Each layout modifier positions the elements, numbered from 1 till 4, in
 specific locations using CSS grid area.
 
-For each tile there 12 options based on this forumula:
+For each tile there 12 options based on this formula:
 1 (tiles molecule) *
 3 (for each choice of slope) * 1 (for one organism).
 4 (four color options per tile) *
 
 This combination of atoms and molecules makes this organism highly dynamic with
-roughly 216 possible options! Because this one organsim has tiles which each has
+roughly 216 possible options! Because this one organism has tiles which each has
 12 options, there are four tiles in three version of the layout (like `.tiles--2h2v`),
 and three tiles in two layout versions (`.tiles---2h1v` and `.tiles--1v2h`). Which
 make the following sum: (1 * 4 * 3 * 12) + (1 * 3 * 2 * 12) = 216. Which is a lot
