@@ -13,7 +13,7 @@ to know what we are talking about.
 
 ## BEM?
 
-[BEM](http://getbem.com/) stands for Block-Element-Modifier and it is a naming
+[BEM](http://getbem.com/) stands for *B*lock-*E*lement-*M*odifier and it is a naming
 convention for writing CSS. There are many tutorials to be found on the web so
 below I'll explain it simply using images. If you want more information you can
 visit the official website at http://getbem.com/.
@@ -83,7 +83,7 @@ to red!
 
 As you can see this a lot of selectors to write. But it gives you also a lot of
 power as we will see later on in this post. To mitigate the number of selectors
-we write, we use the CSS preprocessor [SCSS](https://sass-lang.com/). SCSS allows
+we write, we use the CSS preprocessor [SASS](https://sass-lang.com/). SASS allows
 us to write dynamic CSS with loops. So if a new color gets introduced, say green,
 we just add it to our list of possible colors and the CSS selectors containing
 the BEM modifiers are automatically generated for us. Below is a small snippet
@@ -210,13 +210,13 @@ An atom is something really small. A few examples are buttons, search fields,
 labels, logo's, links etc. Using BEM we make create all these small atoms as
 blocks. An easy example of an atom is a button. We created a file called
 `button.scss` in the *components* folder and add our import under the components
-section int he `index.scss`.
+section in the `index.scss`.
 
 The button has some "behavior" such as being visually displayed as a primary or
 secondary button. Also, the button comes in four colors which are defined in our
 settings. So, as we talked about in our BEM introduction, we create a button block
 with a base styling which has no color. Then, using our primary colors, we enumerate
-through each color and create the appropiate modifiers. The primary and secondary
+through each color and create the appropriate modifiers. The primary and secondary
 version is also available as BEM modifiers. This means that the component has
 6 possible combinations. This is based on 1 (`.button`) * 2 (`--secondary` and
 `--primary`) * 4 (`--blue` and the rest of the colors). This is just an example.
