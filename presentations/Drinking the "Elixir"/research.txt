@@ -4,3 +4,10 @@ https://nerves-project.org/
 
 Notes: Elixir Enum library is eager. Use Streams to increase performance and
 combine transformations.
+
+
+
+Challenges:
+
+- pattern matching (extract data from an binary file)
+- OTP connect to a node (placed on heroku)
