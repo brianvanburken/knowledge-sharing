@@ -6,21 +6,16 @@ theme: Sketchnote,1
 
 ---
 
-# TODO
+# Outline
 
 - What is Elixir
 - Syntax
 - Sigils
 - Functions
-- HOF/Currying
 - Pipes!
-- Protocols
-- Enumerables and Streams
 - Pattern matching
-  - byte level
   - same head
-  - with
-  - pin operator
+  - byte level
   - guards
 - Meta-programming
     - Macros
@@ -31,16 +26,7 @@ theme: Sketchnote,1
     - Let it crash
     - Actor-model
     - Hot code reloading?
-- Testing
-  - Doctests
-  - Fuzzy testing
 - Erlang interop
-
-
-NOTES:
-- In `iex` a list of digits can be presented as characters: [87, 97, 116, 63, 33] => 'Wat?!'
-  You could see its raw value using `i` in front
-
 
 ---
 
@@ -48,8 +34,9 @@ NOTES:
 
 - Language build on top of Erlang
 - Compiles down to BEAM code
-- Designed by Jose Valim (when wanting to make Ruby more concurrent)
 - Heavily inspired by Ruby
+- Designed by Jose Valim
+- Financed by Plataformatec
 
 ---
 
@@ -83,30 +70,11 @@ iex> String.upcase("hellö")
 
 ---
 
-# Sigils
+# Pipes!
 
 ```elixir
-iex> ~s(this is a string with "double" quotes, not 'single' ones)
-"this is a string with \"double\" quotes, not 'single' ones"
-iex> ~w(foo bar bat)
-["foo", "bar", "bat"]
-iex> ~w(foo bar bat)a
-[:foo, :bar, :bat]
-````
-
----
-
-# Sigil delimiters
-
-```elixir
-~r/hello/
-~r|hello|
-~r"hello"
-~r'hello'
-~r(hello)
-~r[hello]
-~r{hello}
-~r<hello>
+iex> "2" |> String.to_integer() |> Kernel.*(2)
+4
 ```
 
 ---
@@ -114,14 +82,14 @@ iex> ~w(foo bar bat)a
 # Functions
 
 ```elixir
-iex> def greet(thing), do: "Hello " <> thing <> "!"
-iex> greet("there")
-"Hello there!"
 iex> greet = fn x -> "Hello " <> x <> "!" end
-iex> greet("there")
+iex> greet.("there")
 "Hello there!"
 ```
+
 ---
+[.code-highlight: 1-7]
+[.code-highlight: 8-12]
 
 # Arity
 
@@ -135,22 +103,70 @@ defmodule Greeting do
 end
 
 iex> load("greeting.ex")
-iex> Greeting.hello/0
-iex> Greeting.hello/1
+iex> Greeting.hello()
+"Hello World!"
+iex> Greeting.hello("there")
+"Hello there!"
 ```
 
 ---
 
-# Pipes!
 
 ```elixir
-something()
-|> otherthing()
+defmodule Fibonacci do
+  def fib(0), do: 0
+  def fib(1), do: 1
+  def fib(n), do: fib(n-2) + fib(n-1)  
+end
+```
+
+---
+[.code-highlight: 4]
+
+# Guards
+
+```elixir
+defmodule Fibonacci do
+  def fib(0), do: 0
+  def fib(1), do: 1
+  def fib(n) when n > 0, do: fib(n-2) + fib(n-1)  
+end
 ```
 
 ---
 
 # Pattern matching
+
+```elixir
+iex> [1, a] = [1, 2]
+iex> a
+2
+iex> {:ok, [hello: a]} = {:ok, [hello: "world"]}
+iex> a
+"world"
+```
+
+---
+[.code-highlight: 1,4]
+[.code-highlight: 2]
+[.code-highlight: 3]
+
+# Pattern matching
+
+```elixir
+iex> case File.read("path/to/file") do
+iex>   {:ok, contents} -> IO.puts("found file: #{contents}")
+iex>   {:error, reason} -> IO.puts("missing file: #{reason}")
+iex> end
+```
+
+---
+[.code-highlight: 1-2,19-20]
+[.code-highlight: 3-4,15-18]
+[.code-highlight: 5]
+[.code-highlight: 6]
+[.code-highlight: 7-14]
+[.code-highlight: all]
 
 ```elixir
 defmodule ID3Parser do
@@ -168,20 +184,11 @@ defmodule ID3Parser do
             comment :: binary-size(30), 
             _rest   :: binary >> = id3_tag
 
-        IO.puts title
-        IO.puts artist 
-        IO.puts album 
-        IO.puts year 
-        IO.puts comment 
-
       _ -> 
         IO.puts "Couldn't open #{file_name}"
     end
   end
-
 end
-
-ID3Parser.parse("sample.mp3")
 ```
 
 ---
@@ -193,6 +200,18 @@ ID3Parser.parse("sample.mp3")
 - Task (async units of computation)
 
 ---
+
+# Processes
+
+```elixir
+iex> for num <- 1..1000, do: spawn fn -> IO.puts("#{num * 2}") end
+```
+
+---
+[.code-highlight: 1-2]
+[.code-highlight: 3-4]
+[.code-highlight: 5-6]
+[.code-highlight: 7-8]
 
 # Agents
 
@@ -206,11 +225,6 @@ iex> Agent.get(agent, fn list -> list end)
 iex> Agent.stop(agent)
 :ok
 ```
-
----
-
-# GenServer
-(http://blog.plataformatec.com.br/2018/04/elixir-processes-and-this-thing-called-otp/)
 
 ---
 
@@ -241,14 +255,22 @@ iex> :ets.insert(:buckets_registry, {"foo", self()})
 
 ---
 
-# Testing
+# Tasks
 
-- test processes
-- test documentation
+```elixir
+iex> task = Task.async fn -> perform_complex_action() end
+iex> other_time_consuming_action()
+iex> Task.await task
+```
+---
+
+# GenServer
+(http://blog.plataformatec.com.br/2018/04/elixir-processes-and-this-thing-called-otp/)
 
 ---
 
-# Erlang interop
 
-- note: binary should be a charlist
-- can call erlang packages
+# Noteworthy
+
+- Erlang interop. Can use Erlang packages!
+- Hot-code reloading on deploy
