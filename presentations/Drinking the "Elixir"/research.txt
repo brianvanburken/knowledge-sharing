@@ -9,3 +9,4 @@ http://blog.plataformatec.com.br/2018/04/elixir-processes-and-this-thing-called-
 https://www.bignerdranch.com/blog/getting-started-with-elixir-metaprogramming/
 https://hexdocs.pm/elixir/master/guards.html
 http://benjamintan.io/blog/2014/05/25/connecting-elixir-nodes-on-the-same-lan/
+http://www.akitaonrails.com/2015/11/22/observing-processes-in-elixir-the-little-elixir-otp-guidebook

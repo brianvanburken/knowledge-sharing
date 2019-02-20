@@ -129,32 +129,6 @@ iex> nested = [ [0], [1], [2] ]
 iex> Enum.map(nested, &Kernel.hd/1)
 [0, 1, 2]
 ```
- 
----
-
-
-```elixir
-defmodule Fibonacci do
-  def fib(0), do: 0
-  def fib(1), do: 1
-  def fib(n), do: fib(n-2) + fib(n-1)  
-end
-```
-
----
-[.code-highlight: 4]
-
-# Guards
-
-```elixir
-defmodule Fibonacci do
-  def fib(0), do: 0
-  def fib(1), do: 1
-  def fib(n) when n > 0, do: fib(n-2) + fib(n-1)  
-end
-```
-
-^ Only Kernel functions allowed because of possible bugs when mutable code is used
 
 ---
 
@@ -221,6 +195,31 @@ end
 ```
 
 ^ This is ID3v1
+
+---
+
+```elixir
+defmodule Fibonacci do
+  def fib(0), do: 0
+  def fib(1), do: 1
+  def fib(n), do: fib(n-2) + fib(n-1)  
+end
+```
+
+---
+[.code-highlight: 4]
+
+# Guards
+
+```elixir
+defmodule Fibonacci do
+  def fib(0), do: 0
+  def fib(1), do: 1
+  def fib(n) when n > 0, do: fib(n-2) + fib(n-1)  
+end
+```
+
+^ Only Kernel functions allowed because of possible bugs when mutable code is used
 
 ---
 
@@ -368,36 +367,47 @@ iex> for num <- 1..1000, do: spawn fn -> IO.puts("#{num * 2}") end
 ^ Fault tolerance, more about that later
 
 ---
+[.code-highlight: 1-8]
+[.code-highlight: 9-10]
 
 ```elixir
-defmodule MyProcess do
-  def start, do: accepting_messages(0)
-
-  def accepting_messages(state) do
-    receive do
-      {:counter} ->
-        new_state = state + 1
-        IO.puts "New state is #{new_state}"
-        accepting_messages(new_state)
-      _ ->
-        accepting_messages(state)
-    end
-  end
-end
+iex> pid = spawn(fn ->
+...>  IO.puts "Waiting for messages"
+...>  receive do
+...>    msg -> IO.puts "Received #{inspect msg}"
+...>  end
+...>end)
+Waiting for messages
+#PID<0.1134.0>
+iex> send(pid, "Hello world!")
+Received "Hello world!"
 ```
 
 ^ With start we set a default state
 ^ Default state is usefull for resetting when crashing
+^ A process exits when it no longer has any code to execute
 
 ---
 
 ```elixir
-iex> pid = spawn fn -> MyProcess.start end
-#PID<0.87.0>
-iex> send pid, {:counter}
-New state is 1
-iex> send pid, {:counter}
-New state is 2
+# my_process.ex
+defmodule MyProcess do
+  def start, do: loop()
+
+  def loop do
+    receive do
+      msg -> IO.puts "Received #{inspect msg}"
+    end
+    loop()
+  end
+end
+
+iex> load("my_process.ex")
+iex> pid = spawn(MyProcess, :start, [])
+iex> send(pid, "Hello world!")
+Received "Hello world!"
+iex> send(pid, "Hello there!")
+Received "Hello there!"
 ```
 
 ---
@@ -466,7 +476,6 @@ iex> Task.await task
 # GenServer
 
 GenServer are processes that encapsulate state, provide (a)sync calls and support code reload.
-(http://blog.plataformatec.com.br/2018/04/elixir-processes-and-this-thing-called-otp/)
 
 ^ Example of supervisor with process pool: Connections to the database
 
