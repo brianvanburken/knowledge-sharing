@@ -18,10 +18,10 @@ https://elixir-lang.org/install.html
 
 # Agenda
 
-- 15:30 Presentation
-- ??:?? Challenges
-- ??:?? Food
-- ??:?? Announcing winner(s)
+- 15:00 - 15:30 Presentation
+- 15:30 - 17:30 Challenges
+- 17:30 - 18:30 Food!
+- 18:30 - 19:00 Announcing winners
 
 ---
 
@@ -48,8 +48,9 @@ iex> 1          # integer
 iex> 0x1F       # integer
 iex> 1.0        # float
 iex> true       # boolean
-iex> :atom      # atom | symbol
-iex> "elixir"   # binary | string
+iex> :hello     # atom
+iex> "elixir"   # string
+iex> <<0, 255>> # binary 
 iex> [1, 2, 3]  # list
 iex> {1, 2, 3}  # tuple
 ```
@@ -102,7 +103,7 @@ iex> greet.("there")
 [.code-highlight: 1-7]
 [.code-highlight: 8-12]
 
-# Arity
+# Modules
 
 ```elixir
 # greeting.ex
@@ -148,6 +149,18 @@ iex> a
 ```
 
 ---
+
+# Pin operator
+
+```elixir
+iex> n = 1
+iex> [1, ^n] = [1, 2]
+** (MatchError) no match of right hand side value: [1, 2]
+iex> [1, ^n] = [1, 1]
+[1, 1]
+```
+
+---
 [.code-highlight: 1,4]
 [.code-highlight: 2]
 [.code-highlight: 3]
@@ -156,12 +169,35 @@ iex> a
 
 ```elixir
 iex> case File.read("path/to/file") do
-iex>   {:ok, contents} -> IO.puts("found file: #{contents}")
-iex>   {:error, reason} -> IO.puts("missing file: #{reason}")
+iex>   {:ok, binary_contents} -> IO.puts(contents)
+iex>   {:error, reason} -> IO.puts("Error: " <> reason)
 iex> end
 ```
 
 ^ Contents is a binary string
+
+---
+
+```elixir
+defmodule Fibonacci do
+  def fib(0), do: 0
+  def fib(1), do: 1
+  def fib(n), do: fib(n-2) + fib(n-1)  
+end
+```
+
+---
+[.code-highlight: 4]
+
+```elixir
+defmodule Fibonacci do
+  def fib(0), do: 0
+  def fib(1), do: 1
+  def fib(n) when n > 0, do: fib(n-2) + fib(n-1)  
+end
+```
+
+^ Only Kernel functions allowed because of possible bugs when mutable code is used
 
 ---
 [.code-highlight: 1-2,19-20]
@@ -175,9 +211,9 @@ iex> end
 defmodule ID3Parser do
   def parse(file_name) do
     case File.read(file_name) do
-      {:ok, binary} ->
-        mp3_byte_size = (byte_size(binary) - 128)
-        << _ :: binary-size(mp3_byte_size), id3_tag :: binary >> = binary
+      {:ok, contents} ->
+        mp3_byte_size = (byte_size(contents) - 128)
+        << _ :: binary-size(mp3_byte_size), id3_tag :: binary >> = contents
 
         << "TAG",
             title   :: binary-size(30), 
@@ -195,31 +231,6 @@ end
 ```
 
 ^ This is ID3v1
-
----
-
-```elixir
-defmodule Fibonacci do
-  def fib(0), do: 0
-  def fib(1), do: 1
-  def fib(n), do: fib(n-2) + fib(n-1)  
-end
-```
-
----
-[.code-highlight: 4]
-
-# Guards
-
-```elixir
-defmodule Fibonacci do
-  def fib(0), do: 0
-  def fib(1), do: 1
-  def fib(n) when n > 0, do: fib(n-2) + fib(n-1)  
-end
-```
-
-^ Only Kernel functions allowed because of possible bugs when mutable code is used
 
 ---
 
@@ -300,43 +311,71 @@ IO.inspect(ast_of_expression)
 ^ here the runtime number is taken and put in place of the unquote
 
 ---
-[.code-highlight: 1-2,8]
-[.code-highlight: 3,7]
-[.code-highlight: 4,6]
-[.code-highlight: 5]
-
-[.code-highlight: 8-15]
-
-
 # Compile-time functions
 
-```elixir
-# my_module.ex
-defmodule MyModule do
-  Enum.each [foo: 1, bar: 2, baz: 3], fn { k, v } ->
-    def unquote(k)(arg) do
-      unquote(v) + arg
-    end
-  end
-end
-
-iex> MyModule.foo(1)
-2
-iex> MyModule.bar(1)
-3
-iex> MyModule.baz(2)
-4
-```
-
-^ here are three functions defined on runtime
-^ there is a lot more like walking and modifing the AST
+Write a program that, given a DNA strand, returns its RNA complement (per RNA transcription).
 
 ---
 
-# OTP
+The four nucleotides found in DNA are adenine (A), cytosine (C), guanine (G) and thymine (T).
 
-Open Telecom Platform
-- 
+The four nucleotides found in RNA are adenine (A), cytosine (C), guanine (G) and uracil (U).
+
+---
+
+Given a DNA strand, its transcribed RNA strand is formed by replacing each nucleotide with its complement:
+
+G -> C
+C -> G
+T -> A
+A -> U
+
+---
+
+```elixir
+# rna.ex
+defmodule RNATranscription do
+  def to_rna('G'), do: 'C'
+  def to_rna('C'), do: 'G'
+  def to_rna('T'), do: 'A'
+  def to_rna('A'), do: 'U'
+end
+
+iex> load("rna.ex")
+iex> RNATranscription.to_rna('T')
+'A'
+```
+
+^ But what if we add new letters or the whole spec changes?
+
+---
+[.code-highlight: all]
+[.code-highlight: 3,7]
+[.code-highlight: 4,6]
+[.code-highlight: 5]
+[.code-highlight: all]
+
+```elixir
+# rna.ex
+defmodule RNATranscription do
+  for { dna, rna } <- %{ ?G => ?C, ?C => ?G, ?T => ?A, ?A => ?U } do
+    def to_rna(unquote(dna)), do: unquote(rna)
+  end
+end
+
+iex> load("rna.ex")
+iex> RNATranscription.to_rna(?T)
+?A
+```
+
+^ functions are defined on compile-time
+^ Note: difficult to read and to search codebase on
+
+---
+
+# Processes
+
+^ Erlang Mantra: Let it crash!
 
 ---
 
@@ -351,7 +390,9 @@ Open Telecom Platform
 ```elixir
 iex> self
 #PID<0.103.0>
-iex> for num <- 1..1000, do: spawn fn -> IO.puts("#{num * 2}") end
+iex> for num <- 1..1000 do
+...>   spawn(fn -> IO.puts("#{num * 2}") end)
+...> end
 2
 4
 6
@@ -368,19 +409,21 @@ iex> for num <- 1..1000, do: spawn fn -> IO.puts("#{num * 2}") end
 
 ---
 [.code-highlight: 1-8]
-[.code-highlight: 9-10]
+[.code-highlight: 9-13]
 
 ```elixir
 iex> pid = spawn(fn ->
 ...>  IO.puts "Waiting for messages"
 ...>  receive do
-...>    msg -> IO.puts "Received #{inspect msg}"
+...>    msg -> IO.puts "Received: " <> msg
 ...>  end
 ...>end)
 Waiting for messages
 #PID<0.1134.0>
 iex> send(pid, "Hello world!")
 Received "Hello world!"
+iex> send(pid, "Hello world!")
+iex>
 ```
 
 ^ With start we set a default state
@@ -411,81 +454,20 @@ Received "Hello there!"
 ```
 
 ---
-[.code-highlight: 1-2]
-[.code-highlight: 3-4]
-[.code-highlight: 5-6]
-[.code-highlight: 7-8]
 
-# Agents
-
-Agent is simple wrapper around state.
-
-```elixir
-iex> {:ok, agent} = Agent.start_link fn -> [] end
-{:ok, #PID<0.57.0>}
-iex> Agent.update(agent, fn list -> ["eggs" | list] end)
-:ok
-iex> Agent.get(agent, fn list -> list end)
-["eggs"]
-iex> Agent.stop(agent)
-:ok
-```
-
-^ Make note of PID
-
----
-
-# ETS
-
-ETS is an in-memory table which is very fast and allows to store any ELixir term.
-
-```elixir
-iex> table = :ets.new(:buckets_registry, [:set, :protected])
-#Reference<0.1885502827.460455937.234656>
-iex> :ets.insert(table, {"foo", self()})
-true
-iex> :ets.lookup(table, "foo")
-[{"foo", #PID<0.41.0>}]
-```
-
----
-
-# Named ETS
-
-ETS table can also be named
-
-```elixir
-iex> :ets.new(:buckets_registry, [:named_table])
-:buckets_registry
-iex> :ets.insert(:buckets_registry, {"foo", self()})
-```
-
----
-
-# Tasks
-
-Task are async units of computation.
-
-```elixir
-iex> task = Task.async fn -> perform_complex_action() end
-iex> other_time_consuming_action()
-iex> Task.await task
-```
+# Agents, tasks and OTP
 ---
 
 # GenServer
 
 GenServer are processes that encapsulate state, provide (a)sync calls and support code reload.
 
-^ Example of supervisor with process pool: Connections to the database
+^ Example: connection-pool to the database
+^ Example: polling external resource
 
 ---
 
-
-# Noteworthy
-
-- Erlang interop. Can use Erlang packages!
-- Hot-code reloading on deploy
+# Example application
 
 ---
 
@@ -495,3 +477,16 @@ GenServer are processes that encapsulate state, provide (a)sync calls and suppor
 - Book Metaprogramming Elixir by Chris McCord & Jose Valim
 
 ^ Can recommend books based on path you want to take. Web or service.
+
+---
+
+# Challenges!
+
+TODO: create repo with challenges
+
+---
+
+# Mix
+
+New project: `mix new <name>`
+Start project using iex: `iex -S mix`
