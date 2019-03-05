@@ -27,11 +27,11 @@ https://elixir-lang.org/install.html
 
 # Elixir?
 
-- Language build on top of Erlang
-- Compiles down to BEAM code
-- Heavily inspired by Ruby
-- Designed by Jose Valim
-- Financed by Plataformatec
+- build on top of Erlang
+- inspired by Ruby
+- immutable
+- functional
+- dynamically typed
 
 ^ Elixir is build because Jose was unable to make Ruby concurrent
 
@@ -50,6 +50,7 @@ iex> 1.0        # float
 iex> true       # boolean
 iex> :hello     # atom
 iex> "elixir"   # string
+iex> ?A         # char
 iex> <<0, 255>> # binary 
 iex> [1, 2, 3]  # list
 iex> {1, 2, 3}  # tuple
@@ -246,23 +247,23 @@ Most of Elixir is written in Elixir!
 ^ Easier for people to read source-code to see what function does and to contribute
 
 ---
-[.code-highlight: 1-3]
-[.code-highlight: 4-10]
+[.code-highlight: 1-5]
+[.code-highlight: 5-15]
 
 ```elixir
-if true do
-  true
+if working?() do
+  do_something()
 else
-  false
+  do_something_else()
 end
 
 # becomes:
 
-case(true) do
+case(working?()) do
   x when x in [false, nil] ->
-    false
+    do_something_else()
   _ ->
-    true
+    do_something()
 end
 ```
 
@@ -275,12 +276,8 @@ end
 # Quoted Expressions
 
 ```elixir
-ast_of_expression = quote do
-  1 + 2
-end
-
-IO.inspect(ast_of_expression)
-# {:+, [context: Elixir, import: Kernel], [1, 2]}
+iex> quote do: 1 + 2
+{:+, [context: Elixir, import: Kernel], [1, 2]}
 ```
 
 ^ Expressions are converted into Abstract Syntax Trees (AST) for evaluation.
@@ -289,68 +286,69 @@ IO.inspect(ast_of_expression)
 ---
 
 ```elixir
-{:+, [context: Elixir, import: Kernel], [1, 2]}
+iex> quote do: sum(1, 2 + 3, 4)
+{:sum, [], [1, {:+, [context: Elixir, import: Kernel], [2, 3]}, 4]}
 ```
-
-name function, metadata, arguments
 
 ---
 
 # Unquoted Expressions
 
 ```elixir
-number = 2
-ast_of_expression = quote do
-  1 + unquote(number)
-end
-
-IO.inspect(ast_of_expression)
-# {:+, [context: Elixir, import: Kernel], [1, 2]}
+iex> number = 2
+iex> quote do: 1 + unquote(number)
+{:+, [context: Elixir, import: Kernel], [1, 2]}
 ```
 
 ^ here the runtime number is taken and put in place of the unquote
 
 ---
+
+```elixir
+iex> number = 2
+iex> ast = quote do: 1 + unquote(number)
+iex> Macro.to_string(ast)
+"1 + 2"
+```
+
+---
+
 # Compile-time functions
 
-Write a program that, given a DNA strand, returns its RNA complement (per RNA transcription).
+"Convert a given DNA strand to its RNA complement."
+
+![inline](rna_transcription.png)
 
 ---
 
-The four nucleotides found in DNA are adenine (A), cytosine (C), guanine (G) and thymine (T).
-
-The four nucleotides found in RNA are adenine (A), cytosine (C), guanine (G) and uracil (U).
-
----
-
-Given a DNA strand, its transcribed RNA strand is formed by replacing each nucleotide with its complement:
-
-G -> C
-C -> G
-T -> A
-A -> U
+| DNA | RNA |
+| --- | --- |
+| G | C |
+| C | G |
+| T | A |
+| A | U |
 
 ---
 
 ```elixir
 # rna.ex
 defmodule RNATranscription do
-  def to_rna('G'), do: 'C'
-  def to_rna('C'), do: 'G'
-  def to_rna('T'), do: 'A'
-  def to_rna('A'), do: 'U'
+  def to_rna(?G), do: ?C
+  def to_rna(?C), do: ?G
+  def to_rna(?T), do: ?A
+  def to_rna(?A), do: ?U
 end
 
 iex> load("rna.ex")
-iex> RNATranscription.to_rna('T')
-'A'
+iex> RNATranscription.to_rna(?T)
+?A
 ```
 
 ^ But what if we add new letters or the whole spec changes?
 
 ---
 [.code-highlight: all]
-[.code-highlight: 3,7]
+[.code-highlight: 3]
 [.code-highlight: 4,6]
 [.code-highlight: 5]
 [.code-highlight: all]
@@ -358,7 +356,8 @@ iex> RNATranscription.to_rna('T')
 ```elixir
 # rna.ex
 defmodule RNATranscription do
-  for { dna, rna } <- %{ ?G => ?C, ?C => ?G, ?T => ?A, ?A => ?U } do
+  mapping = %{ ?G => ?C, ?C => ?G, ?T => ?A, ?A => ?U }
+  for { dna, rna } <- mapping do
     def to_rna(unquote(dna)), do: unquote(rna)
   end
 end
@@ -381,8 +380,7 @@ iex> RNATranscription.to_rna(?T)
 
 # OTP/Processes
 
-- Erlang virtual machine (BEAM) processes
-- lighter than OS processes
+- Erlang virtual machine processes
 - follows the actor model
 
 ---
@@ -408,8 +406,18 @@ iex> for num <- 1..1000 do
 ^ Fault tolerance, more about that later
 
 ---
+
+```elixir
+iex> send(self(), "Hello!")
+"Hello!"
+iex> flush()
+"Hello!"
+:ok
+```
+
+---
 [.code-highlight: 1-8]
-[.code-highlight: 9-13]
+[.code-highlight: 9-15]
 
 ```elixir
 iex> pid = spawn(fn ->
@@ -420,6 +428,7 @@ iex> pid = spawn(fn ->
 ...>end)
 Waiting for messages
 #PID<0.1134.0>
+
 iex> send(pid, "Hello world!")
 Received "Hello world!"
 iex> send(pid, "Hello world!")
@@ -431,6 +440,10 @@ iex>
 ^ A process exits when it no longer has any code to execute
 
 ---
+[.code-highlight: all]
+[.code-highlight: 5-10]
+[.code-highlight: 14]
+[.code-highlight: all]
 
 ```elixir
 # my_process.ex
@@ -455,38 +468,65 @@ Received "Hello there!"
 
 ---
 
-# Agents, tasks and OTP
----
-
-# GenServer
-
-GenServer are processes that encapsulate state, provide (a)sync calls and support code reload.
-
-^ Example: connection-pool to the database
-^ Example: polling external resource
+# Remote nodes
 
 ---
 
-# Example application
+```bash
+$ iex --name bar@10.1.0.1 --cookie secret  
+```
+
+```bash
+$ iex --name foo@10.1.0.2 --cookie secret  
+```
 
 ---
 
-# Recommended material
+```elixir
+iex(bar@10.1.0.1)> Node.list  
+[]
+iex(bar@10.1.0.1)> Node.connect :"foo@10.1.0.2"  
+true
+iex(bar@10.1.0.1)> Node.list  
+[:"foo@10.1.0.2"]
+```
 
-- Book Programming Elixir 1.6 by Jose Valim
-- Book Metaprogramming Elixir by Chris McCord & Jose Valim
+---
 
-^ Can recommend books based on path you want to take. Web or service.
+```bash
+$ iex --name bar
+```
+
+```elixir
+iex(bar@10.1.0.1)> greetings = fn -> IO.puts "Hello from #{Node.self}" end  
+iex(bar@10.1.0.1)> Node.spawn :"foo@10.1.0.2", greetings
+#PID<9071.68.0>
+Hello from foo@10.1.0.2
+```
+
+^ spawned a process on remote node, linked it, and returned the PID
+
+---
+
+```elixir
+iex(bar@10.1.0.1)> pid = Node.spawn(:"foo@10.1.0.2", fn ->
+...>   receive do
+...>     {:ping, client} -> send client, :pong
+...>   end
+...> end)
+#PID<9014.59.0>
+
+iex(bar@10.1.0.1)> send pid, {:ping, self}
+{:ping, #PID<0.73.0>}
+iex(bar@10.1.0.1)> flush
+:pong
+:ok
+```
 
 ---
 
 # Challenges!
 
-TODO: create repo with challenges
-
 ---
 
-# Mix
-
-New project: `mix new <name>`
-Start project using iex: `iex -S mix`
+`git clone https://github.com/avisi/techday_elixir`
