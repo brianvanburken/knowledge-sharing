@@ -499,7 +499,12 @@ iex(foo@10.1.0.1)> flush()
 
 ---
 
-# Repository
-https://github.com/avisi/techday_elixir
+## Repository:
+github.com/avisi/techday_elixir
+
+## Slides:
+github.com/brianvanburken/knowledge-sharing/
+
+**presentations > Drinking the Elixir**
 
 ![right fit](challenges.jpg)
