@@ -202,8 +202,8 @@ defmodule ID3Parser do
   def parse(file_name) do
     case File.read(file_name) do
       {:ok, contents} ->
-        mp3_byte_size = (byte_size(contents) - 128)
-        << _ :: binary-size(mp3_byte_size), id3_tag :: binary >> = contents
+        song_byte_size = (byte_size(contents) - 128)
+        << _ :: binary-size(song_byte_size), id3_tag :: binary >> = contents
 
         << "TAG",
             title  :: binary-size(30), 
