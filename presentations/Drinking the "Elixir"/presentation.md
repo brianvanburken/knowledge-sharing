@@ -219,7 +219,9 @@ defmodule ID3Parser do
 end
 ```
 
-^ This is ID3v1
+^ first we get the size of MP3 song
+^ then we extract the ID3 tag
+^ at last we match exactly on "TAG" and use the rest to get the data we need
 
 ---
 
@@ -231,7 +233,7 @@ Most of Elixir is written in Elixir!
 
 ![inline](elixir-github.png)
 
-^ Most of the language consists of macro's
+^ Most of the language consists of macro's created by elixir itself
 ^ Easier for people to read source-code to see what function does and to contribute
 
 ---
@@ -255,9 +257,9 @@ case working?() do
 end
 ```
 
-^ "if" is an macro
-^ Warning: don't use a lot of macro's. Code can become unreadable
-^ here you can see that any value expect false and nil is true
+^ "if" is just an macro for the case
+^ this is readable from the elixir source code
+^ warning: don't use a lot of macro's. Code can become unreadable
 
 ---
 
