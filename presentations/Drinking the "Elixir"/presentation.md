@@ -10,9 +10,10 @@ https://elixir-lang.org/install.html
 
 ---
 
-![original 100%](elixir-logo.png)
+![fit](elixir-logo.png)
 
 # Drinking the Elixir
+### Brian van Burken
 
 ---
 
@@ -31,7 +32,8 @@ https://elixir-lang.org/install.html
 - inspired by Ruby
 - immutable
 - functional
-- dynamically typed
+- dynamiclly typed
+- weakly typed, optionally strong
 
 ^ Elixir is build because Jose was unable to make Ruby concurrent
 
@@ -39,7 +41,7 @@ https://elixir-lang.org/install.html
 
 # Syntax
 
-^ Tell that all code in the slides can be executed using the REPL called IEx (interactive elixir)
+^ All code in slides are executable using the REPL called IEx
 
 ---
 
@@ -54,10 +56,10 @@ iex> ?A         # char
 iex> <<0, 255>> # binary 
 iex> [1, 2, 3]  # list
 iex> {1, 2, 3}  # tuple
+iex> %{1 => 2}  # map
 ```
 
-^ Make extra note of atoms and binary string
-^ Warning: atoms are not garbage collected (DDOS if created from user input)
+^ atom is not garbace collected
 
 ---
 
@@ -76,7 +78,8 @@ iex> String.upcase("hellö")
 "HELLÖ"
 ```
 
-^ Make note of <> being a Kernel function
+^ All operators are also functions on Kernel that you can call
+^ Elixir supports full UTF-8
 
 ---
 
@@ -109,7 +112,7 @@ iex> greet.("there")
 ```elixir
 # greeting.ex
 defmodule Greeting do
-  def hello(), do: hello("World")
+  def hello(), do: hello("world")
   def hello(thing) do
     "Hello " <> thing <> "!"
   end
@@ -117,20 +120,22 @@ end
 
 iex> load("greeting.ex")
 iex> Greeting.hello()
-"Hello World!"
+"Hello world!"
 iex> Greeting.hello("there")
 "Hello there!"
 ```
 
-^ Same-name functions are defined by their arity hello/0 and hello/1
-
 ---
 
+# Arity
+
 ```elixir
-iex> nested = [ [0], [1], [2] ]
-iex> Enum.map(nested, &Kernel.hd/1)
-[0, 1, 2]
+iex> nested = [ "there", "techday" ]
+iex> Enum.map(nested, &Greeting.hello/1)
+["Hello there!", "Hello techday!"]
 ```
+
+^ Each function with the same name is identified by its number of arguments
 
 ---
 
@@ -144,22 +149,14 @@ iex> Enum.map(nested, &Kernel.hd/1)
 iex> [1, a] = [1, 2]
 iex> a
 2
-iex> {:ok, [hello: a]} = {:ok, [hello: "world"]}
+iex> {:ok, {:hello, a}} = {:ok, {:hello, "world"}}
 iex> a
 "world"
-```
-
----
-
-# Pin operator
-
-```elixir
-iex> n = 1
-iex> [1, ^n] = [1, 2]
+iex> [2, a] = [1, 2]
 ** (MatchError) no match of right hand side value: [1, 2]
-iex> [1, ^n] = [1, 1]
-[1, 1]
 ```
+
+^ everything on the left-hand is matched against the right-hand
 
 ---
 [.code-highlight: 1,4]
@@ -170,35 +167,38 @@ iex> [1, ^n] = [1, 1]
 
 ```elixir
 iex> case File.read("path/to/file") do
-iex>   {:ok, binary_contents} -> IO.puts(contents)
-iex>   {:error, reason} -> IO.puts("Error: " <> reason)
-iex> end
+...>   {:ok, binary_contents} -> IO.puts(contents)
+...>   {:error, reason} -> IO.puts("Error: " <> reason)
+...> end
 ```
 
 ^ Contents is a binary string
 
 ---
 
-```elixir
-defmodule Fibonacci do
-  def fib(0), do: 0
-  def fib(1), do: 1
-  def fib(n), do: fib(n-2) + fib(n-1)  
-end
-```
-
----
-[.code-highlight: 4]
+# Same-head functions
 
 ```elixir
 defmodule Fibonacci do
   def fib(0), do: 0
   def fib(1), do: 1
   def fib(n) when n > 0, do: fib(n-2) + fib(n-1)  
+  def fib(_), do: raise "Invalid input: need zero or higher"
 end
 ```
 
-^ Only Kernel functions allowed because of possible bugs when mutable code is used
+^ here we pattern match on the argument
+^ with an underscore we can say that we aren't interested in the value
+
+---
+
+# Binary pattern matching
+
+"Get from a MP3 file the title, artist, album, and year"
+
+---
+
+![inline](id3_spec.jpg)
 
 ---
 [.code-highlight: 1-2,19-20]
@@ -217,12 +217,11 @@ defmodule ID3Parser do
         << _ :: binary-size(mp3_byte_size), id3_tag :: binary >> = contents
 
         << "TAG",
-            title   :: binary-size(30), 
-            artist  :: binary-size(30), 
-            album   :: binary-size(30), 
-            year    :: binary-size(4), 
-            comment :: binary-size(30), 
-            _rest   :: binary >> = id3_tag
+            title  :: binary-size(30), 
+            artist :: binary-size(30), 
+            album  :: binary-size(30), 
+            year   :: binary-size(4), 
+            _      :: binary >> = id3_tag
 
       _ -> 
         IO.puts "Couldn't open #{file_name}"
@@ -259,7 +258,7 @@ end
 
 # becomes:
 
-case(working?()) do
+case working?() do
   x when x in [false, nil] ->
     do_something_else()
   _ ->
@@ -273,26 +272,7 @@ end
 
 ---
 
-# Quoted Expressions
-
-```elixir
-iex> quote do: 1 + 2
-{:+, [context: Elixir, import: Kernel], [1, 2]}
-```
-
-^ Expressions are converted into Abstract Syntax Trees (AST) for evaluation.
-^ Elixir allows you to see the structure of code using quote
-
----
-
-```elixir
-iex> quote do: sum(1, 2 + 3, 4)
-{:sum, [], [1, {:+, [context: Elixir, import: Kernel], [2, 3]}, 4]}
-```
-
----
-
-# Unquoted Expressions
+# Compile time
 
 ```elixir
 iex> number = 2
@@ -317,26 +297,22 @@ iex> Macro.to_string(ast)
 
 "Convert a given DNA strand to its RNA complement."
 
-![inline](rna_transcription.png)
+![inline](rna_transcription.jpg)
 
 ---
+[.background-color: #FFFFFF]
 
-| DNA | RNA |
-| --- | --- |
-| G | C |
-| C | G |
-| T | A |
-| A | U |
+![fit](rna_dna_table.jpg)
 
 ---
 
 ```elixir
 # rna.ex
 defmodule RNATranscription do
-  def to_rna(?G), do: ?C
-  def to_rna(?C), do: ?G
-  def to_rna(?T), do: ?A
   def to_rna(?A), do: ?U
+  def to_rna(?G), do: ?C
+  def to_rna(?T), do: ?A
+  def to_rna(?C), do: ?G
 end
 
 iex> load("rna.ex")
@@ -378,16 +354,14 @@ iex> RNATranscription.to_rna(?T)
 
 ---
 
-# OTP/Processes
-
 - Erlang virtual machine processes
 - follows the actor model
+
+![inline](process_example.jpg)
 
 ---
 
 ```elixir
-iex> self
-#PID<0.103.0>
 iex> for num <- 1..1000 do
 ...>   spawn(fn -> IO.puts("#{num * 2}") end)
 ...> end
@@ -408,6 +382,8 @@ iex> for num <- 1..1000 do
 ---
 
 ```elixir
+iex> self()
+#PID<0.103.0>
 iex> send(self(), "Hello!")
 "Hello!"
 iex> flush()
@@ -416,21 +392,23 @@ iex> flush()
 ```
 
 ---
-[.code-highlight: 1-8]
-[.code-highlight: 9-15]
+[.code-highlight: 1-9]
+[.code-highlight: 10-16]
 
 ```elixir
 iex> pid = spawn(fn ->
-...>  IO.puts "Waiting for messages"
+...>  IO.puts("Waiting for messages")
 ...>  receive do
-...>    msg -> IO.puts "Received: " <> msg
+...>    msg -> IO.puts("Received: " <> msg)
 ...>  end
+...>  IO.puts("Done!")
 ...>end)
 Waiting for messages
 #PID<0.1134.0>
 
 iex> send(pid, "Hello world!")
 Received "Hello world!"
+Done!
 iex> send(pid, "Hello world!")
 iex>
 ```
@@ -441,65 +419,66 @@ iex>
 
 ---
 [.code-highlight: all]
-[.code-highlight: 5-10]
-[.code-highlight: 14]
+[.code-highlight: 3-13]
+[.code-highlight: 15]
 [.code-highlight: all]
 
 ```elixir
 # my_process.ex
 defmodule MyProcess do
-  def start, do: loop()
 
-  def loop do
+  def loop(), do: loop(0)
+  def loop(counter) do
     receive do
-      msg -> IO.puts "Received #{inspect msg}"
+      msg -> IO.puts("#{counter} - #{inspect msg}")
     end
-    loop()
+    loop(counter + 1)
   end
+
 end
 
 iex> load("my_process.ex")
-iex> pid = spawn(MyProcess, :start, [])
+iex> pid = spawn(MyProcess, :loop, [])
 iex> send(pid, "Hello world!")
-Received "Hello world!"
+0 - "Hello world!"
 iex> send(pid, "Hello there!")
-Received "Hello there!"
+1 - "Hello there!"
 ```
 
 ---
 
 # Remote nodes
 
+![inline](remote_node_example.jpg)
+
 ---
 
 ```bash
-$ iex --name bar@10.1.0.1 --cookie secret  
+$ iex --name foo@10.1.0.1 --cookie secret  
 ```
 
 ```bash
-$ iex --name foo@10.1.0.2 --cookie secret  
+$ iex --name bar@10.1.0.2 --cookie secret  
 ```
 
 ---
 
 ```elixir
-iex(bar@10.1.0.1)> Node.list  
+iex(foo@10.1.0.1)> Node.list  
 []
-iex(bar@10.1.0.1)> Node.connect :"foo@10.1.0.2"  
+iex(foo@10.1.0.1)> Node.connect :"bar@10.1.0.2"  
 true
-iex(bar@10.1.0.1)> Node.list  
-[:"foo@10.1.0.2"]
+iex(foo@10.1.0.1)> Node.list  
+[:"bar@10.1.0.2"]
 ```
 
 ---
 
-```bash
-$ iex --name bar
-```
-
 ```elixir
-iex(bar@10.1.0.1)> greetings = fn -> IO.puts "Hello from #{Node.self}" end  
-iex(bar@10.1.0.1)> Node.spawn :"foo@10.1.0.2", greetings
+iex(foo@10.1.0.1)> greetings = fn ->
+...> IO.puts("Hello from #{Node.self()}")
+...> end  
+iex(foo@10.1.0.1)> Node.spawn(:"foo@10.1.0.2", greetings)
 #PID<9071.68.0>
 Hello from foo@10.1.0.2
 ```
@@ -516,9 +495,9 @@ iex(bar@10.1.0.1)> pid = Node.spawn(:"foo@10.1.0.2", fn ->
 ...> end)
 #PID<9014.59.0>
 
-iex(bar@10.1.0.1)> send pid, {:ping, self}
+iex(bar@10.1.0.1)> send(pid, {:ping, self})
 {:ping, #PID<0.73.0>}
-iex(bar@10.1.0.1)> flush
+iex(bar@10.1.0.1)> flush()
 :pong
 :ok
 ```
@@ -529,4 +508,7 @@ iex(bar@10.1.0.1)> flush
 
 ---
 
-`git clone https://github.com/avisi/techday_elixir`
+# Repository
+https://github.com/avisi/techday_elixir
+
+![right fit](challenges.jpg)
