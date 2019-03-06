@@ -164,6 +164,11 @@ iex> case File.read("path/to/file") do
 ^ Contents is a binary string
 
 ---
+[.code-highlight: all]
+[.code-highlight: 2-3]
+[.code-highlight: 4]
+[.code-highlight: 5]
+[.code-highlight: all]
 
 # Same-head functions
 
@@ -176,7 +181,8 @@ defmodule Fibonacci do
 end
 ```
 
-^ here we pattern match on the argument
+^ here we pattern match on the exact argument
+^ with "when" we can place guards. These guards cannot have side-effects so kernel functions only
 ^ with an underscore we can say that we aren't interested in the value
 
 ---
@@ -206,10 +212,10 @@ defmodule ID3Parser do
         << _ :: binary-size(song_byte_size), id3_tag :: binary >> = contents
 
         << "TAG",
-            title  :: binary-size(30), 
-            artist :: binary-size(30), 
-            album  :: binary-size(30), 
-            year   :: binary-size(4), 
+            title  :: binary-size(30),
+            artist :: binary-size(30),
+            album  :: binary-size(30),
+            year   :: binary-size(4),
             _      :: binary >> = id3_tag
 
       _ -> 
