@@ -274,7 +274,9 @@ end
 
 ```elixir
 iex> number = 2
-iex> quote do: 1 + unquote(number)
+iex> ast = quote do
+...> 1 + unquote(number)
+...> end
 {:+, [context: Elixir, import: Kernel], [1, 2]}
 iex> Macro.to_string(ast)
 "1 + 2"
@@ -447,20 +449,18 @@ iex> send(pid, "Hello there!")
 
 ```bash
 $ iex --name foo@10.1.0.1 --cookie secret  
-```
 
-```bash
 $ iex --name bar@10.1.0.2 --cookie secret  
 ```
 
 ---
 
 ```elixir
-iex(foo@10.1.0.1)> Node.list  
+iex(foo@10.1.0.1)> Node.list()
 []
-iex(foo@10.1.0.1)> Node.connect :"bar@10.1.0.2"  
+iex(foo@10.1.0.1)> Node.connect(:"bar@10.1.0.2")
 true
-iex(foo@10.1.0.1)> Node.list  
+iex(foo@10.1.0.1)> Node.list()
 [:"bar@10.1.0.2"]
 ```
 
@@ -480,16 +480,15 @@ Hello from foo@10.1.0.2
 ---
 
 ```elixir
-iex(bar@10.1.0.1)> pid = Node.spawn(:"foo@10.1.0.2", fn ->
+iex(foo@10.1.0.1)> pid = Node.spawn(:"bar@10.1.0.2", fn ->
 ...>   receive do
-...>     {:ping, client} -> send client, :pong
+...>     {:ping, client} -> send(client, :pong)
 ...>   end
 ...> end)
 #PID<9014.59.0>
-
-iex(bar@10.1.0.1)> send(pid, {:ping, self})
+iex(foo@10.1.0.1)> send(pid, {:ping, self})
 {:ping, #PID<0.73.0>}
-iex(bar@10.1.0.1)> flush()
+iex(foo@10.1.0.1)> flush()
 :pong
 :ok
 ```
