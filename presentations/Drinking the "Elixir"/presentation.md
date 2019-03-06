@@ -470,9 +470,9 @@ iex(foo@10.1.0.1)> Node.list()
 iex(foo@10.1.0.1)> greetings = fn ->
 ...> IO.puts("Hello from #{Node.self()}")
 ...> end  
-iex(foo@10.1.0.1)> Node.spawn(:"foo@10.1.0.2", greetings)
+iex(foo@10.1.0.1)> Node.spawn(:"bar@10.1.0.2", greetings)
 #PID<9071.68.0>
-Hello from foo@10.1.0.2
+Hello from bar@10.1.0.2
 ```
 
 ^ spawned a process on remote node, linked it, and returned the PID
