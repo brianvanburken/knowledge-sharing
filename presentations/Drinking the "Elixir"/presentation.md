@@ -248,6 +248,7 @@ else
 end
 
 # becomes:
+# https://github.com/elixir-lang/elixir/blob/master/lib/elixir/lib/kernel.ex#L3054
 
 case working?() do
   x when x in [false, nil] ->
