@@ -270,24 +270,18 @@ end
 
 ---
 
-# Compile time
+# Unquoted expressions
 
 ```elixir
 iex> number = 2
 iex> quote do: 1 + unquote(number)
 {:+, [context: Elixir, import: Kernel], [1, 2]}
-```
-
-^ here the runtime number is taken and put in place of the unquote
-
----
-
-```elixir
-iex> number = 2
-iex> ast = quote do: 1 + unquote(number)
 iex> Macro.to_string(ast)
 "1 + 2"
 ```
+
+^ here we use unqoute to take a normal variable and make it static during compile time
+^ using quote we can read the AST
 
 ---
 
