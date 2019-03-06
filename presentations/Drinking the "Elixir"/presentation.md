@@ -83,17 +83,6 @@ iex> String.upcase("hellö")
 
 ---
 
-# Pipes!
-
-```elixir
-iex> "2" |> String.to_integer() |> Kernel.*(2)
-4
-```
-
-^ Value is put as first parameter (not last like other FP languages)
-
----
-
 # Functions
 
 ```elixir
