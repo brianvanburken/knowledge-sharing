@@ -14,7 +14,7 @@ Software Engineer @ Avisi
 
 ---
 
-![inline](css_family_guy.gif)
+![inline](assets/css_family_guy.gif)
 
 ^ css is hard in 2 ways: browser and how we write it
 
@@ -41,23 +41,23 @@ Stands for *B*lock *E*lement *M*odifier
 
 ---
 
-![](minifig__blue.png)
+![](assets/minifig__blue.png)
 
 ---
 
-![](minifig__red.png)
+![](assets/minifig__red.png)
 
 ---
 
-![](minifig__blue--red.png)
+![](assets/minifig__blue--red.png)
 
 ---
 
-![](minifig__batman.png)
+![](assets/minifig__batman.png)
 
 ---
 
-![](avisi.png)
+![](assets/avisi.png)
 
 ^ voorbeeld hoe wij het bij Avisi doen
 
@@ -85,27 +85,27 @@ Stands for *B*lock *E*lement *M*odifier
 ---
 
 # tiles--2v2h
-![inline](tiles--2v2h.png)
+![inline](assets/tiles--2v2h.png)
 
 ---
 
 # tiles---4v
-![inline](tiles--4v.png)
+![inline](assets/tiles--4v.png)
 
 ---
 
 # tiles--2h2v
-![inline](tiles--2h2v.png)
+![inline](assets/tiles--2h2v.png)
 
 ---
 
 # tiles--1h2v
-![inline](tiles--1h2v.png)
+![inline](assets/tiles--1h2v.png)
 
 ---
 
 # tiles--2h1v
-![inline](tiles--2h1v.png)
+![inline](assets/tiles--2h1v.png)
 
 ^ laatste slide met foto
 
@@ -130,14 +130,14 @@ Stands for *I*nverted *T*riangle *CSS*
 
 ---
 
-![inline](itcss-layers1.png)
+![inline](assets/itcss-layers1.png)
 
 ^ start wide reaching many aspects 
   end more explicit
 
 ---
 
-![inline](itcss-layers2.png)
+![inline](assets/itcss-layers2.png)
 
 ^ Settings: all your variables like colors, fonts, sizes etc.
   Tools: handy functions like ours: converting px to rem

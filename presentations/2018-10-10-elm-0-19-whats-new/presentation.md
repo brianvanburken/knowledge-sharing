@@ -6,11 +6,11 @@ autoscale: true
 
 ---
 
-![inline](7drHiqr.gif)
+![inline](assets/7drHiqr.gif)
 
 ---
 
-![inline](what-year-is-it.jpg)
+![inline](assets/what-year-is-it.jpg)
 
 ---
 
@@ -55,7 +55,7 @@ autoscale: true
 
 ---
 
-![inline](asset-sizes.png)
+![inline](assets/asset-sizes.png)
 
 ---
 
@@ -93,7 +93,7 @@ autoscale: true
 
 --- 
 
-![](natives.jpg)
+![](assets/natives.jpg)
 
 ---
 
