@@ -10,7 +10,7 @@ https://elixir-lang.org/install.html
 
 ---
 
-![fit](elixir-logo.png)
+![fit](assets/elixir-logo.png)
 
 # Drinking the Elixir
 ### Brian van Burken
@@ -193,7 +193,7 @@ end
 
 ---
 
-![inline](id3_spec.jpg)
+![inline](assets/id3_spec.jpg)
 
 ---
 [.code-highlight: 1-2,19-20]
@@ -237,7 +237,7 @@ end
 
 Most of Elixir is written in Elixir!
 
-![inline](elixir-github.png)
+![inline](assets/elixir-github.png)
 
 ^ Most of the language consists of macro's created by elixir itself
 ^ Easier for people to read source-code to see what function does and to contribute
@@ -291,12 +291,12 @@ iex> Macro.to_string(ast)
 
 "Convert a given DNA strand to its RNA complement."
 
-![inline](rna_transcription.jpg)
+![inline](assets/rna_transcription.jpg)
 
 ---
 [.background-color: #FFFFFF]
 
-![fit](rna_dna_table.jpg)
+![fit](assets/rna_dna_table.jpg)
 
 ---
 
@@ -351,7 +351,7 @@ iex> RNATranscription.to_rna(?T)
 - Erlang virtual machine processes
 - follows the actor model
 
-![inline](process_example.jpg)
+![inline](assets/process_example.jpg)
 
 ---
 
@@ -443,7 +443,7 @@ iex> send(pid, "Hello there!")
 
 # Remote nodes
 
-![inline](remote_node_example.jpg)
+![inline](assets/remote_node_example.jpg)
 
 ---
 
@@ -507,4 +507,4 @@ github.com/brianvanburken/knowledge-sharing/
 
 **presentations > Drinking the Elixir**
 
-![right fit](challenges.jpg)
+![right fit](assets/challenges.jpg)
