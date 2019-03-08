@@ -24,6 +24,8 @@ https://elixir-lang.org/install.html
 - 17:30 - 18:30 Food!
 - 18:30 - 19:00 Announcing winners
 
+^ slides will be available during challenges
+
 ---
 
 # Elixir?
@@ -51,15 +53,15 @@ iex> 0x1F       # integer
 iex> 1.0        # float
 iex> true       # boolean
 iex> :hello     # atom
-iex> "elixir"   # string
 iex> ?A         # char
+iex> "elixir"   # string|binary
 iex> <<0, 255>> # binary 
 iex> [1, 2, 3]  # list
 iex> {1, 2, 3}  # tuple
 iex> %{1 => 2}  # map
 ```
 
-^ atom is not garbace collected
+^ a string is also a binary
 
 ---
 
@@ -86,8 +88,7 @@ iex> String.upcase("hellö")
 # Functions
 
 ```elixir
-iex> greet = fn x -> "Hello #{x}!" end
-#Function<6.128620087/1 in :erl_eval.expr/5>
+iex> greet = fn x -> "Hello " <> x <> "!" end
 iex> greet.("there")
 "Hello there!"
 ```
@@ -113,18 +114,6 @@ iex> Greeting.hello()
 iex> Greeting.hello("there")
 "Hello there!"
 ```
-
----
-
-# Arity
-
-```elixir
-iex> nested = [ "there", "techday" ]
-iex> Enum.map(nested, &Greeting.hello/1)
-["Hello there!", "Hello techday!"]
-```
-
-^ Each function with the same name is identified by its number of arguments
 
 ---
 
@@ -219,7 +208,7 @@ defmodule ID3Parser do
             _      :: binary >> = id3_tag
 
       _ -> 
-        IO.puts "Couldn't open #{file_name}"
+        IO.puts "Couldn't open " <> file_name
     end
   end
 end
@@ -357,7 +346,7 @@ iex> RNATranscription.to_rna(?T)
 
 ```elixir
 iex> for num <- 1..1000 do
-...>   spawn(fn -> IO.puts("#{num * 2}") end)
+...>   spawn(fn -> IO.puts(num * 2) end)
 ...> end
 2
 4
@@ -468,7 +457,7 @@ iex(foo@10.1.0.1)> Node.list()
 
 ```elixir
 iex(foo@10.1.0.1)> greetings = fn ->
-...> IO.puts("Hello from #{Node.self()}")
+...> IO.puts("Hello from " <> Node.self())
 ...> end  
 iex(foo@10.1.0.1)> Node.spawn(:"bar@10.1.0.2", greetings)
 #PID<9071.68.0>
