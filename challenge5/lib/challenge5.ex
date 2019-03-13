@@ -8,7 +8,7 @@ defmodule Challenge5 do
       {^secret, ^key, client} ->
         send(client, "Well done! Here is the final key: " <> final_key)
       {^secret, n, client} ->
-        :timer.sleep(1000 * 3)
+        :timer.sleep(1000 * 10)
         if n > len do
           send(client, {:error, "You can't ask a position past the length of the key."}
         else
