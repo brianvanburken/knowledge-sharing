@@ -28,6 +28,9 @@ defmodule Challenge5 do
   end
 
 
+  # elixir --name foo@10.31.1.161 --cookie <key> -S mix run -e "Challenge5.loop()" --no-halt
+  # iex --name bar@10.31.1.161 --cookie <key>
+
   # server = :"honey@10.31.1.161"
   # secret = "AVISI-85hsd715"
   # true = Node.connect(server)
