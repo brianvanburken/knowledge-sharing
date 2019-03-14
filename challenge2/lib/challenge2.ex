@@ -60,4 +60,3 @@ defmodule Challenge2 do
     |> binary_part(0, length)
   end
 end
-end

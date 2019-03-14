@@ -1,16 +1,12 @@
 defmodule Challenge5 do
-  def loop() do
+  def secret() do
     secret = "AVISI-85hsd715"
-    key = "AVISI-359gdsh249tnh9"
-    final_key = "AVISI-235hagy4"
+    key = "AVISI-359GDSH249TNH9"
     len = String.length(key) - 1
     receive do
-      {^secret, ^key, client} ->
-        IO.inspect(client)
-        send(client, "Well done! Here is the final key: " <> final_key)
       {^secret, n, client} ->
         IO.inspect(client)
-        # :timer.sleep(1000 * 10)
+        :timer.sleep(1000 * 5)
         if n > len do
           send(client, {:error, "You can't ask a position past the length of the key."})
         else
@@ -24,17 +20,17 @@ defmodule Challenge5 do
         end
       {_, _, client} -> send(client, {:error, "Something went wrong. Did you send the correct key?"})
     end
-    loop()
+    secret()
   end
 
 
-  # elixir --name foo@10.31.1.161 --cookie <key> -S mix run -e "Challenge5.loop()" --no-halt
-  # iex --name bar@10.31.1.161 --cookie <key>
+  # elixir --name challenge5@10.31.1.161 --cookie AVISI-85hsd715 -S mix run -e "Challenge5.secret()" --no-halt
+  # iex --name bar@10.31.1.161 --cookie AVISI-85hsd715
 
-  # server = :"honey@10.31.1.161"
+  # server = :"challenge5@10.31.1.161"
   # secret = "AVISI-85hsd715"
   # true = Node.connect(server)
-  # pid = Node.spawn(server, fn -> Challenge5.loop() end)
+  # pid = Node.spawn(server, fn -> Challenge5.secret() end)
   # watcher = spawn(Challenge5, :watch, ["", secret, pid])
   # for n <- 0..19 do
   #   send(pid, {secret, n, watcher})

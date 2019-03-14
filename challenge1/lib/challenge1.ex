@@ -19,6 +19,13 @@ defmodule Challenge1 do
     |> Enum.join()
   end
 
+  def encode(string) do
+    string
+    |> String.codepoints()
+    |> Enum.map(&to_emoji/1)
+    |> Enum.join()
+  end
+
   mapping = %{
     "😀" => "A",
     "😂" => "B",
@@ -55,10 +62,13 @@ defmodule Challenge1 do
     "😌" => "6",
     "☺️" => "7",
     "😊" => "8",
-    "😇" => "9"
+    "😇" => "9",
+    "🤕" => "-",
+    "🙄" => " "
   }
 
   for { emoji, ascii } <- mapping do
     def to_ascii(unquote(emoji)), do: unquote(ascii)
+    def to_emoji(unquote(ascii)), do: unquote(emoji)
   end
 end

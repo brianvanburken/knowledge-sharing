@@ -15,8 +15,8 @@ defmodule Challenge3 do
       _::binary-size(3),
       part7::binary-size(34),
       _::binary-size(13),
-      part8::binary-size(26),
-      _::binary-size(105)>> = contents
+      part8::binary-size(70),
+      _::binary>> = contents
 
     new_zip = part1 <> part2 <> part3 <> part4 <> part5 <> part6 <> part7 <> part8
     File.write!("./challenge3-repaired.zip", new_zip)
@@ -32,7 +32,7 @@ defmodule Challenge3 do
       part5::binary-size(20),
       part6::binary-size(40),
       part7::binary-size(34),
-      part8::binary-size(26)>> = contents
+      part8::binary-size(70)>> = contents
 
     corrupt =
       part1 <>
@@ -51,6 +51,8 @@ defmodule Challenge3 do
       random_string(13) <>
       part8 <>
       random_string(105)
+
+    IO.puts(byte_size(part8))
 
     File.write!("./challenge3-corrupt.zip", corrupt, [:binary])
   end
