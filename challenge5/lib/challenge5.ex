@@ -4,7 +4,7 @@ defmodule Challenge5 do
     key = "AVISI-359GDSH249TNH9"
     len = String.length(key) - 1
     receive do
-      {^secret, n, client} ->
+      {n, client} ->
         IO.inspect(client)
         :timer.sleep(1000 * 5)
         if n > len do
@@ -18,7 +18,7 @@ defmodule Challenge5 do
             send(client, {:ok, part})
           end
         end
-      {_, _, client} -> send(client, {:error, "Something went wrong. Did you send the correct key?"})
+      {_, client} -> send(client, {:error, "Something went wrong. Do you want a position in the key?"})
     end
     secret()
   end
@@ -27,28 +27,26 @@ defmodule Challenge5 do
   # elixir --name challenge5@10.31.1.161 --cookie AVISI-85hsd715 -S mix run -e "Challenge5.secret()" --no-halt
   # iex --name bar@10.31.1.161 --cookie AVISI-85hsd715
 
-  # server = :"challenge5@10.31.1.161"
-  # secret = "AVISI-85hsd715"
-  # true = Node.connect(server)
-  # pid = Node.spawn(server, fn -> Challenge5.secret() end)
-  # watcher = spawn(Challenge5, :watch, ["", secret, pid])
-  # for n <- 0..19 do
-  #   send(pid, {secret, n, watcher})
+  # def start() do
+  #   server = :"challenge5@10.31.1.161"
+  #   Node.connect(server)
+  #   watcher = spawn(Challenge5, :watch, [pid])
+  #   for n <- 0..19 do
+  #     pid = Node.spawn(server, fn -> Challenge5.secret() end)
+  #     send(pid, {n, watcher})
+  #   end
   # end
   #
-  # def watch(str, secret, pid) do
+  # def watch(pid), do: watch(pid, "")
+  # def watch(pid, str) do
   #   receive do
   #     {:ok, letter} ->
-  #       key = str <> letter
-  #       watch(key, secret, pid)
+  #       watch(pid, str <> letter)
   #     {:done, letter} ->
-  #       key = str <> letter
-  #       IO.puts(key)
-  #       send(pid, {secret, key, self()})
-  #       watch(key, secret, pid)
+  #       IO.inspect(str <> letter)
   #     msg ->
-  #       IO.puts(msg)
-  #       watch(str, secret, pid)
+  #       IO.inspect(msg)
+  #       watch(pid, str)
   #   end
   # end
 end

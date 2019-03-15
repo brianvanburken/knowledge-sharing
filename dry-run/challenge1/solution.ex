@@ -1,8 +1,4 @@
 defmodule Challenge1 do
-  @moduledoc """
-  Documentation for Challenge1.
-  """
-
   @doc """
   Decodes our secret emoji language to human-readable ASCII strings
 
@@ -13,17 +9,11 @@ defmodule Challenge1 do
 
   """
   def decode(string) do
-    string
-    |> String.graphemems()
-    |> Enum.map(&to_ascii/1)
-    |> Enum.join()
-  end
-
-  def encode(string) do
-    string
-    |> String.graphemems()
-    |> Enum.map(&to_emoji/1)
-    |> Enum.join()
+    # Note: this uses Elixir pipes a concept not explained in the presentation
+    string # start with our emoji string
+    |> String.graphemems() # split string to an array of each emoji
+    |> Enum.map(&to_ascii/1) # map each emoji to ASCII
+    |> Enum.join() # join array of ASCII letters to a string
   end
 
   mapping = %{
@@ -69,6 +59,5 @@ defmodule Challenge1 do
 
   for { emoji, ascii } <- mapping do
     def to_ascii(unquote(emoji)), do: unquote(ascii)
-    def to_emoji(unquote(ascii)), do: unquote(emoji)
   end
 end

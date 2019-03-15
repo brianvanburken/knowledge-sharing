@@ -1,28 +1,38 @@
 # Challenge 2
 
 We got a binary file containing the key broken up by our secret informant. He
-provided us with the specification to extract the key. The key is put at random
-so we also have to place in the correct order. Build a function that reads the
-file, extracts the pieces of the key, and places it in the correct order. The
-binary files is placed in a password protected zip which can only be opened with
-the key we decoded from our secret emoji language.
+provided us with the specification to extract the key. The key is scrabbled so
+we to put it back together in the correct order.
+
+Build a function that reads the bin file, extracts the pieces of the key, and
+places it in the correct order. The binary file is found in the zip file which
+can only be opened with the key we decoded from our previous challenge.
 
 ## Secret specification
 
 ### Legenda
-R = key for random data
-S = key for our secret data
 
-<key>[<length of bytes>](<name>)
+- `R` = key for random data
+- `S` = key for our secret data
+
+Parts of the binary sequence is brokend down like this: `<key>[<length of bytes>](<order>)`
 
 ### Specification
 
 ```
-R[54]S[1](a)R[2]S[1](b)R[2]S[1](c)R[30]S[3](d)R[30]S[2](e)R[1]S[1](f)R[10]S[2](g)R[102]
-```
-
-### Order
-
-```elixir
-e <> f <> g <> "-"  <> a <> c <> b <> d
+R[054]()
+S[001](3)
+R[002]()
+S[001](4)
+R[002]()
+S[001](5)
+R[030]()
+S[003](6)
+R[030]()
+S[002](0)
+R[001]()
+S[001](1)
+R[010]()
+S[003](2)
+R[102]()
 ```
