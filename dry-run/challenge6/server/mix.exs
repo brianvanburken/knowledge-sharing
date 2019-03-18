@@ -3,7 +3,7 @@ defmodule Challenge6.MixProject do
 
   def project do
     [
-      app: :challenge5,
+      app: :challenge6,
       version: "0.1.0",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
