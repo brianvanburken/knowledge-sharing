@@ -34,7 +34,7 @@ https://elixir-lang.org/install.html
 - inspired by Ruby
 - immutable
 - functional
-- dynamiclly typed
+- dynamically typed
 - weakly typed, optionally strong
 
 ^ Elixir is build because Jose was unable to make Ruby concurrent
@@ -71,13 +71,15 @@ iex> 1 + 2
 iex> Kernel.+(1, 2)
 3
 iex> "Hello " <> "there!"
-"Hello World!"
+"Hello there!"
 iex> is_binary("hellö")
 true
 iex> String.length("hellö")
 5
 iex> String.upcase("hellö")
 "HELLÖ"
+iex> String.graphmemes("hellö")
+["h","e","l","l","ö"]
 ```
 
 ^ All operators are also functions on Kernel that you can call
@@ -92,6 +94,8 @@ iex> greet = fn x -> "Hello " <> x <> "!" end
 iex> greet.("there")
 "Hello there!"
 ```
+
+^ elixir always returns the last expression
 
 ---
 [.code-highlight: 1-7]
@@ -108,7 +112,7 @@ defmodule Greeting do
   end
 end
 
-iex> load("greeting.ex")
+iex> import_file("greeting.ex")
 iex> Greeting.hello()
 "Hello world!"
 iex> Greeting.hello("there")
@@ -180,6 +184,8 @@ end
 
 "Get from a MP3 file the title, artist, album, and year"
 
+ID3v1: https://en.wikipedia.org/wiki/ID3#ID3v1
+
 ---
 
 ![inline](assets/id3_spec.jpg)
@@ -188,8 +194,8 @@ end
 [.code-highlight: 1-2,19-20]
 [.code-highlight: 3-4,15-18]
 [.code-highlight: 5]
-[.code-highlight: 6]
-[.code-highlight: 7-14]
+[.code-highlight: 6-7]
+[.code-highlight: 8-14]
 [.code-highlight: all]
 
 ```elixir
@@ -198,14 +204,15 @@ defmodule ID3Parser do
     case File.read(file_name) do
       {:ok, contents} ->
         song_byte_size = byte_size(contents) - 128
-        << _ :: binary-size(song_byte_size), id3_tag :: binary >> = contents
+        << _ :: binary-size(song_byte_size),
+           id3_tag :: binary >> = contents
 
         << "TAG",
-            title  :: binary-size(30),
-            artist :: binary-size(30),
-            album  :: binary-size(30),
-            year   :: binary-size(4),
-            _      :: binary >> = id3_tag
+           title  :: binary-size(30),
+           artist :: binary-size(30),
+           album  :: binary-size(30),
+           year   :: binary-size(4),
+           _      :: binary >> = id3_tag
 
       _ -> 
         IO.puts "Couldn't open " <> file_name
@@ -236,7 +243,7 @@ Most of Elixir is written in Elixir!
 [.code-highlight: 5-15]
 
 ```elixir
-if working?() do
+if is_thruthy() do
   do_something()
 else
   do_something_else()
@@ -245,7 +252,7 @@ end
 # becomes:
 # https://github.com/elixir-lang/elixir/blob/master/lib/elixir/lib/kernel.ex#L3054
 
-case working?() do
+case is_thruthy() do
   x when x in [false, nil] ->
     do_something_else()
   _ ->
@@ -292,38 +299,43 @@ iex> Macro.to_string(ast)
 ```elixir
 # rna.ex
 defmodule RNATranscription do
-  def to_rna(?A), do: ?U
-  def to_rna(?G), do: ?C
-  def to_rna(?T), do: ?A
-  def to_rna(?C), do: ?G
+  def to_rna("A"), do: "U"
+  def to_rna("G"), do: "C"
+  def to_rna("T"), do: "A"
+  def to_rna("C"), do: "G"
 end
 
-iex> load("rna.ex")
-iex> RNATranscription.to_rna(?T)
-?A
+iex> import_file("rna.ex")
+iex> RNATranscription.to_rna("T")
+"A"
 ```
 
 ^ But what if we add new letters or the whole spec changes?
 
 ---
 [.code-highlight: all]
-[.code-highlight: 3]
-[.code-highlight: 4,6]
-[.code-highlight: 5]
-[.code-highlight: all]
+[.code-highlight: 3-8]
+[.code-highlight: 9,11]
+[.code-highlight: 10]
+[.code-highlight: 13-16]
 
 ```elixir
 # rna.ex
 defmodule RNATranscription do
-  mapping = %{ ?G => ?C, ?C => ?G, ?T => ?A, ?A => ?U }
+  mapping = %{
+    "G" => "C",
+    "C" => "G",
+    "T" => "A",
+    "A" => "U"
+  }
   for { dna, rna } <- mapping do
     def to_rna(unquote(dna)), do: unquote(rna)
   end
 end
 
-iex> load("rna.ex")
-iex> RNATranscription.to_rna(?T)
-?A
+iex> import_file("rna.ex")
+iex> RNATranscription.to_rna("T")
+"A"
 ```
 
 ^ functions are defined on compile-time
@@ -420,7 +432,7 @@ defmodule MyProcess do
 
 end
 
-iex> load("my_process.ex")
+iex> import_file("my_process.ex")
 iex> pid = spawn(MyProcess, :loop, [])
 iex> send(pid, "Hello world!")
 0 - "Hello world!"
