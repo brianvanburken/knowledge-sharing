@@ -1,13 +1,17 @@
 # Challenge 5
 
-Our informant is satisfied with our communication through his server. Though, he
-decided to ramp up security a bit and only send messages in parts. He wants
-you to connect to new server `challenge5@10.31.1.161` and use the cookie retrieved
-from the previous communication. Now you need to get the key with a length of `20`
-in pieces. He conceived a new message protocol. You need to send him the key from
-the previous communication along with the position of the key you want. Oh, and
-he needs your process ID to send a message back. This all needs to be placed in
-a tuple in the exact order and as I've explained. In our final message our informant
-told us that he rented a cheaper service to reduce costs. The server has an delay
-of 5 seconds, but can handle many requests at once. Al this is done by
-`Challenge5.secret()` on his server.
+Our informant is satisfied with our communication through the server. Though, the
+informant decided to ramp up security a bit and only send messages in parts. We
+need to connect to his new server `challenge5@10.31.1.161` and set the cookie to
+the key we retrieved from the previous server. You need to get a key with the
+length of `20` characters. The server expects a new message protocol. You need
+
+to send it the index of the new key you want and it needs your process ID to send
+a message back. This all needs to be placed in order in a tuple.
+
+In our final message from our informant we also got some information which
+described that the informant needed to reduce costs for pilatus lessons. So we
+are dealing with a cheaper service that has a delay of exactly five seconds. But,
+on the bright side we can send is many request at once. Maybe, we should send it
+parallel requests? It's up to you. You can send it all to the secret
+`Challenge5.secret()` function.

@@ -1,43 +1,47 @@
 defmodule Solution do
-  # server = :"challenge6@10.31.1.161"
-  # secret = "AVISI-359GDSH249TNH9"
-  # secret_emoji = Solution.encode(secret)
-  # Node.connect(server)
-  # pid = Node.spawn_link(server, fn -> Challenge6.secret() end)
-  # watcher = spawn_link(Solution, :watch, ["", secret_emoji, pid])
-  # for n <- 0..7 do
-  #   send(pid, {secret_emoji, n, watcher})
-  # end
+  # Start REPL with:
+  # iex> server = :"challenge6@10.31.1.161"
+  # iex> Node.connect(server)
+  # iex> pid = Node.spawn_link(server, fn -> Challenge6.secret() end)
+  # iex> watcher = spawn_link(Solution, :watch, ["", pid])
+  # iex> IO.inspect(watcher)
+  # iex> for n <- 0..6 do
+  # iex>   emoji_n = n |> Integer.to_string() |> Solution.encode()
+  # iex>   send(pid, {emoji_n, watcher})
+  # iex> end
 
-  def watch(str, secret, pid) do
+  def watch(str, pid) do
     receive do
       {:ok, letter, _} ->
         key = str <> letter
-        watch(key, secret, pid)
-      {:done, letter, _} ->
-        key = str <> letter
-        IO.puts(key)
-        IO.puts(secret)
-        send(pid, {secret, encode(key), self()})
-        watch(key, secret, pid)
-      {:message, message} ->
-        IO.puts( decode(message) <> decode(str) )
+        if String.length(key) == 7 do
+          IO.puts("Sending final key: " <> key)
+          IO.inspect(self())
+          send(pid, {key, self()})
+        else
+          IO.puts("Got another piece. Key so far: " <> key)
+        end
+        IO.puts("Waiting for another message")
+        watch(key, pid)
+      {:done, final} ->
+        IO.puts("Got final message: " <> final)
+        IO.puts(decode(final) <> decode(str))
       msg ->
         IO.inspect(msg)
-        watch(str, secret, pid)
+        watch(str, pid)
     end
   end
 
   def decode(string) do
     string
-    |> String.codepoints()
+    |> String.graphemes()
     |> Enum.map(&to_ascii/1)
     |> Enum.join()
   end
 
   def encode(string) do
     string
-    |> String.codepoints()
+    |> String.graphemes()
     |> Enum.map(&to_emoji/1)
     |> Enum.join()
   end
@@ -87,5 +91,4 @@ defmodule Solution do
     def to_ascii(unquote(emoji)), do: unquote(ascii)
     def to_emoji(unquote(ascii)), do: unquote(emoji)
   end
-
 end

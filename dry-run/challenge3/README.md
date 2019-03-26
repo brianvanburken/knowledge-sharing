@@ -1,18 +1,19 @@
 # Challenge 3
 
 Our secret informant didn't trusted the binary format so he decided to throw off
-the goverment hackers and create a corrupt zipfile that needs to be fixed in order
-to be unpacked. He send the instructions to us using our emoji language which we
-decoded and placed below. He told us the parts are in the correct order. The zip is password protected with the key we got from our binary
-extraction in the previous challenge.
+the goverment hackers and create a corrupt ZIP file. Security by obscurity! Nice!
+But, we still need the data.. Luckly for us he send the specification for us to
+repair the ZIP file. The parts are in the correct order and only some random data
+is inserted in the file. So we need to clean the garbage out. After cleaning we
+should open the ZIP file with the key we got from our previous challenge.
 
-## To repair
+## Repair specification
 
 ### Legenda
-R = random data
-Z = our zip data
+- `R` = random data
+- `Z` = our zip data
 
-<key>[<length of bytes>]
+The file is broken down like this: `<key>[<length of bytes>]`
 
 ### Specification
 

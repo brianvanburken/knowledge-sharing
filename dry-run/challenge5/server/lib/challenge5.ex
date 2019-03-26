@@ -1,7 +1,6 @@
 defmodule Challenge5 do
 
   def secret do
-    secret = "AVISI-85hsd715"
     key = "AVISI-359GDSH249TNH9"
     len = String.length(key) - 1
     receive do

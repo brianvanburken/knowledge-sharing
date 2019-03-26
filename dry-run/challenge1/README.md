@@ -1,9 +1,11 @@
 # Challenge 1
 
-We have create a secret language to communicate. But it gets tedious having to
-decode it each time by hand. We should automate this!
+You are a secret agent and are corresponding with an tech-savvy informant
+somewhere on the internet. To communicate you two have create a secret language,
+an emoji language! But, you have to decode each by hand and this gets tedious.
+We should automate this!
 
-Build an decode function to convert our secret emoji language to ascii to get
-the key.
+Build a function that decodes a string of our secret emoji language and returns
+the ASCII equivalent. Use this function to decode the secret key send to us:
 
-Our key: 😀😱😜😫😜🤕😊🤑😅🤬😇😙😛
+😀😱😜😫😜🤕😊🤑😅🤬😇😙😛
