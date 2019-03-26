@@ -5,7 +5,13 @@
 ```bash
 export CHALLENGE4_KEY=key && \
 export CHALLENGE4_NAME=challenge4@10.31.1.161 && \
-elixir --name $CHALLENGE4_NAME --cookie $CHALLENGE4_KEY -S mix run -e "Challenge4.secret()" --no-halt
+elixir \
+--name $CHALLENGE4_NAME \
+--cookie $CHALLENGE4_KEY \
+--erl '-kernel inet_dist_listen_min 9000'  \
+--erl '-kernel inet_dist_listen_max 9000' \
+--no-halt \
+-S mix run -e "Challenge4.secret()"
 ```
 
 ## Connection to the remote node

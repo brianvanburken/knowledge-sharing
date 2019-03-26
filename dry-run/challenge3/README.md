@@ -1,11 +1,11 @@
 # Challenge 3
 
-Our secret informant didn't trusted the binary format so he decided to throw off
-the goverment hackers and create a corrupt ZIP file. Security by obscurity! Nice!
-But, we still need the data.. Luckly for us he send the specification for us to
-repair the ZIP file. The parts are in the correct order and only some random data
-is inserted in the file. So we need to clean the garbage out. After cleaning we
-should open the ZIP file with the key we got from our previous challenge.
+Our secret informant didn't trust the binary format so he decided to throw off
+the government hackers and create a corrupt ZIP file. Security by obscurity! Nice!
+But, we still need the data.. Luckily for us, the informant sends the specification
+to repair with the ZIP file. The parts are in the correct order and only some
+random data inserted in the file. So we need to clean the garbage out. After
+cleaning we should open the ZIP file with the key we got from our previous challenge.
 
 ## Repair specification
 

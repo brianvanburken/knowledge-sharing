@@ -9,6 +9,7 @@ defmodule Challenge4 do
   # iex(foo@10.31.1.161)4> send(pid, {:secret, self()})
   # iex(foo@10.31.1.161)5> flush()
   def secret do
+    IO.puts("Starting listener")
     receive do
       {:secret, client} ->
         send(client, "Yes, you got it! Your key is: AVISI-85hsd715")
