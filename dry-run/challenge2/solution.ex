@@ -19,7 +19,7 @@ defmodule Challenge2 do
           g::binary-size(3),
           _::binary>> = contents
         # return the string in correct order
-        e <> f <> g <> <> a <> c <> b <> d
+        e <> f <> g <> a <> c <> b <> d
     end
   end
 end

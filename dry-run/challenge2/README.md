@@ -15,7 +15,7 @@ secret key we got from the previous correspondence.
 - `R` = key for random data
 - `S` = key for our secret data
 
-Parts of the binary sequence is brokend down like this: `<key>[<length of bytes>](<order>)`
+Parts of the binary sequence is brokend down like this: `<key>[<length of bytes>](<order in secret key>)`
 
 ### Specification
 
