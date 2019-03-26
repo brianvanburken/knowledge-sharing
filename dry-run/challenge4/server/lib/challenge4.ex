@@ -8,7 +8,6 @@ defmodule Challenge4 do
   # iex(foo@10.31.1.161)3> pid = Node.spawn(:"challenge4@10.31.1.161", fn -> Challenge4.secret() end)
   # iex(foo@10.31.1.161)4> send(pid, {:secret, self()})
   # iex(foo@10.31.1.161)5> flush()
-
   def secret do
     receive do
       {:secret, client} ->

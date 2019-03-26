@@ -1,19 +1,19 @@
-defmodule Challenge1 do
+defmodule Solution do
   @doc """
   Decodes our secret emoji language to human-readable ASCII strings
 
   ## Examples
 
-      iex> Challenge1.decode("😀😱😜😫😜")
+      iex> import_file("solution.ex")
+      iex> Solution.decode("😀😱😜😫😜")
       "AVISI"
 
   """
   def decode(string) do
-    # Note: this uses Elixir pipes a concept not explained in the presentation
-    string # start with our emoji string
-    |> String.graphemems() # split string to an array of each emoji
-    |> Enum.map(&to_ascii/1) # map each emoji to ASCII
-    |> Enum.join() # join array of ASCII letters to a string
+    array_of_emojis = String.graphemes(string)
+    for emoji <- array_of_emojis,
+      into: "",
+      do: to_ascii(emoji)
   end
 
   mapping = %{

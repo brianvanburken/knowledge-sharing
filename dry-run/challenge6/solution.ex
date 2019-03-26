@@ -1,5 +1,7 @@
 defmodule Solution do
-  # Start REPL with:
+  # Start REPL with: iex --name foo@10.31.1.161 --cookie AVISI-359GDSH249TNH9
+  #
+  # iex> import_file("solution.ex")
   # iex> server = :"challenge6@10.31.1.161"
   # iex> Node.connect(server)
   # iex> pid = Node.spawn_link(server, fn -> Challenge6.secret() end)

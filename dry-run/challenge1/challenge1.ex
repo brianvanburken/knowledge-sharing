@@ -4,6 +4,7 @@ defmodule Challenge1 do
 
   ## Examples
 
+      iex> import_file("challenge1.ex")
       iex> Challenge1.decode("😀😱😜😫😜")
       "AVISI"
 
@@ -52,4 +53,6 @@ defmodule Challenge1 do
     "🤕" => "-",
     "🙄" => " "
   }
+
+  # define your compile-time functions here
 end
