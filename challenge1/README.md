@@ -1,21 +1,11 @@
-# Challenge1
+# Challenge 1
 
-**TODO: Add description**
+You are a secret agent and are corresponding with a tech-savvy informant
+somewhere on the internet. To communicate you two have created a secret language,
+an emoji language! But, you have to decode each by hand and this gets tedious.
+We should automate this!
 
-## Installation
+Build a function that decodes a string of our secret emoji language and returns
+the ASCII equivalent. Use this function to decode the secret key send to us:
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `challenge1` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:challenge1, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/challenge1](https://hexdocs.pm/challenge1).
-
+😀😱😜😫😜🤕😊🤑😅🤬😇😙😛

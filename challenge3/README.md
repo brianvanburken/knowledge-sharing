@@ -1,21 +1,22 @@
-# Challenge3
+# Challenge 3
 
-**TODO: Add description**
+Our secret informant didn't trust the binary format so he decided to throw off
+the government hackers and create a corrupt ZIP file. Security by obscurity! Nice!
+But, we still need the data.. Luckily for us, the informant sends the specification
+to repair with the ZIP file. The parts are in the correct order and only some
+random data inserted in the file. So we need to clean the garbage out. After
+cleaning we should open the ZIP file with the key we got from our previous challenge.
 
-## Installation
+## Repair specification
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `challenge3` to your list of dependencies in `mix.exs`:
+### Legenda
+- `R` = random data
+- `Z` = our zip data
 
-```elixir
-def deps do
-  [
-    {:challenge3, "~> 0.1.0"}
-  ]
-end
+The file is broken down like this: `<key>[<length of bytes>]`
+
+### Specification
+
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/challenge3](https://hexdocs.pm/challenge3).
-
+Z[4]R[5]Z[36]R[56]Z[5]R[16]Z[4]R[1]Z[20]R[43]Z[40]R[3]Z[34]R[13]Z[70]R[105]
+```

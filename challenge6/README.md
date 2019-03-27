@@ -1,21 +1,13 @@
-# Challenge5
+# Challenge 6
 
-**TODO: Add description**
+Everything is coming together. Our informant is finishing up the server and added
+our secret emoji language for communication. 
 
-## Installation
+The informant broke the final key into two parts. The first part is a key with
+the length of seven characters. Instead of sending a plain number, as we did
+in the previous challenge, we need to encode it in our emoji language. If you
+finally got the first part, send it, encoded in emoji language, a tuple with
+the key and your process ID. The rest will be given to you.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `challenge5` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:challenge5, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/challenge5](https://hexdocs.pm/challenge5).
-
+You can find the slow server for communication at `challenge6@10.31.161` and the
+secret function is `Challenge6.secret()`.

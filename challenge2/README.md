@@ -1,21 +1,24 @@
-# Challenge2
+# Challenge 2
 
-**TODO: Add description**
+Our secret informant was not satisfied with the secret emoji language. He wanted
+to try something else. He sent us a binary file and hid our secret key inside.
+He broke the key in parts and scrambled the order. We need to extract the pieces
+and put them back together in the correct order. He was able to send us the
+specification which we already decoded. Below you can read the specification.
+The binary file is stored in a ZIP file which is password protected. We can open
+it using the secret key we got from the previous correspondence.
 
-## Installation
+## Secret specification
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `challenge2` to your list of dependencies in `mix.exs`:
+### Legenda
 
-```elixir
-def deps do
-  [
-    {:challenge2, "~> 0.1.0"}
-  ]
-end
+- `R` = key for random data
+- `S` = key for our secret data
+
+Parts of the binary sequence is brokend down like this: `<key>[<length of bytes>](<order in secret key>)`
+
+### Specification
+
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/challenge2](https://hexdocs.pm/challenge2).
-
+R[054]()S[001](3)R[002]()S[001](4)R[002]()S[001](5)R[030]()S[003](6)R[030]()S[002](0)R[001]()S[001](1)R[010]()S[003](2)R[102]()
+```
