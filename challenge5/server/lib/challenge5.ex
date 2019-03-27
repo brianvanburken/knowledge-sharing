@@ -6,13 +6,16 @@ defmodule Challenge5 do
     receive do
       {n, client} ->
         :timer.sleep(1000 * 2)
-        if n > len do
-          send(client, {:error, "You can't ask a position past the length of the key."})
+        if not is_integer(n) do
+          send(client, {:error, "You need to send it an integer position"})
         else
-          part = String.at(key, n)
-          send(client, {:ok, part})
+          if n > len do
+            send(client, {:error, "You can't ask a position past the length of the key."})
+          else
+            part = String.at(key, n)
+            send(client, {:ok, part})
+          end
         end
-      {_, client} -> send(client, {:error, "Something went wrong. Do you want a position in the key?"})
     end
     secret()
   end
