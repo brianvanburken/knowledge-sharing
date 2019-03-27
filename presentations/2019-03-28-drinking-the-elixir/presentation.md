@@ -35,9 +35,18 @@ https://elixir-lang.org/install.html
 - immutable
 - functional
 - dynamically typed
-- weakly typed, optionally strong
 
 ^ Elixir is build because Jose was unable to make Ruby concurrent
+
+---
+
+# Cases
+
+["The Road to 2 Million Websocket Connections in Phoenix"](https://phoenixframework.org/blog/the-road-to-2-million-websocket-connections)
+
+["How Discord Scaled Elixir to 5,000,000 Concurrent Users"](https://blog.discordapp.com/scaling-elixir-f9b8e1e7c29b)
+
+["Why Discord, Pinterest, Moz and Bleacher Report use Elixir"](https://prograils.com/posts/why-discord-pinterest-moz-bleacher-report-use-elixir-case-studies)
 
 ---
 
@@ -98,8 +107,10 @@ iex> greet.("there")
 ^ elixir always returns the last expression
 
 ---
-[.code-highlight: 1-7]
-[.code-highlight: 8-12]
+[.code-highlight: 1-8]
+[.code-highlight: 9]
+[.code-highlight: 10-11]
+[.code-highlight: 12-13]
 
 # Modules
 
@@ -124,6 +135,9 @@ iex> Greeting.hello("there")
 # Pattern matching
 
 ---
+[.code-highlight: 1-3]
+[.code-highlight: 4-6]
+[.code-highlight: 7-8]
 
 # Destructuring
 
@@ -265,6 +279,10 @@ end
 ^ warning: don't use a lot of macro's. Code can become unreadable
 
 ---
+[.code-highlight: 1]
+[.code-highlight: 2-4]
+[.code-highlight: 5]
+[.code-highlight: 6-7]
 
 # Unquoted expressions
 
@@ -386,6 +404,8 @@ iex> flush()
 :ok
 ```
 
+^ don't be normalled by the return message of send. The message is still in the inbox
+
 ---
 [.code-highlight: 1-9]
 [.code-highlight: 10-16]
@@ -414,9 +434,10 @@ iex>
 
 ---
 [.code-highlight: all]
-[.code-highlight: 3-13]
+[.code-highlight: 3-11]
+[.code-highlight: 14]
 [.code-highlight: 15]
-[.code-highlight: all]
+[.code-highlight: 16-19]
 
 ```elixir
 # my_process.ex
@@ -440,6 +461,8 @@ iex> send(pid, "Hello there!")
 1 - "Hello there!"
 ```
 
+^ receive blocks the process. So loop get executed after the message is received
+
 ---
 
 # Remote nodes
@@ -449,31 +472,30 @@ iex> send(pid, "Hello there!")
 ---
 
 ```bash
-$ iex --name foo@10.1.0.1 --cookie secret  
+$ iex --name normal@10.1.0.1 --cookie secret  
 
-$ iex --name bar@10.1.0.2 --cookie secret  
+$ iex --name super@10.1.0.2 --cookie secret  
 ```
 
 ---
 
 ```elixir
-iex(foo@10.1.0.1)> Node.list()
+iex(normal@10.1.0.1)> Node.list()
 []
-iex(foo@10.1.0.1)> Node.connect(:"bar@10.1.0.2")
+iex(normal@10.1.0.1)> Node.connect(:"super@10.1.0.2")
 true
-iex(foo@10.1.0.1)> Node.list()
-[:"bar@10.1.0.2"]
+iex(normal@10.1.0.1)> Node.list()
+[:"super@10.1.0.2"]
 ```
 
 ---
 
 ```elixir
-iex(foo@10.1.0.1)> greetings = fn ->
+iex(normal@10.1.0.1)> Node.spawn(:"super@10.1.0.2", fn ->
 ...> IO.puts("Hello from " <> Node.self())
-...> end  
-iex(foo@10.1.0.1)> Node.spawn(:"bar@10.1.0.2", greetings)
+...> end)
 #PID<9071.68.0>
-Hello from bar@10.1.0.2
+Hello from super@10.1.0.2
 ```
 
 ^ spawned a process on remote node, linked it, and returned the PID
@@ -481,15 +503,15 @@ Hello from bar@10.1.0.2
 ---
 
 ```elixir
-iex(foo@10.1.0.1)> pid = Node.spawn(:"bar@10.1.0.2", fn ->
+iex(normal@10.1.0.1)> pid = Node.spawn(:"super@10.1.0.2", fn ->
 ...>   receive do
 ...>     {:ping, client} -> send(client, :pong)
 ...>   end
 ...> end)
 #PID<9014.59.0>
-iex(foo@10.1.0.1)> send(pid, {:ping, self})
+iex(normal@10.1.0.1)> send(pid, {:ping, self})
 {:ping, #PID<0.73.0>}
-iex(foo@10.1.0.1)> flush()
+iex(normal@10.1.0.1)> flush()
 :pong
 :ok
 ```
