@@ -1,0 +1,10 @@
+export CHALLENGE4_COOKIE=AVISI-ZKSI88Y7TX6DOJSTI9ON && \
+export CHALLENGE4_NAME=challenge4@35.204.143.241 && \
+elixir \
+--name $CHALLENGE4_NAME \
+--cookie $CHALLENGE4_COOKIE \
+--erl '-kernel inet_dist_listen_min 9000'  \
+--erl '-kernel inet_dist_listen_max 9000' \
+--no-halt \
+--detached \
+-S mix run -e "Challenge4.secret()"

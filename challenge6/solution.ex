@@ -1,17 +1,6 @@
 defmodule Solution do
-  # iex --name foo@10.31.1.161 --cookie AVISI-8SGCHH80DTK80ICD7UI1
-  #
-  # iex> import_file("solution.ex")
-  # iex> server = :"challenge6@10.31.1.161"
-  # iex> Node.connect(server)
-  # iex> pid = Node.spawn_link(server, fn -> Challenge6.secret() end)
-  # iex> watcher = spawn_link(Solution, :watch, ["", pid])
-  # iex> for n <- 0..19 do
-  # ...>   emoji_n = n |> Integer.to_string() |> Solution.encode()
-  # ...>   send(pid, {emoji_n, watcher})
-  # ...> end
-
-  def watch(str, pid) do
+  def watch(pid), do: watch(pid, "")
+  def watch(pid, str) do
     receive do
       {:ok, letter, _} ->
         key = str <> letter
@@ -23,28 +12,28 @@ defmodule Solution do
           IO.puts("Got another piece. Key so far: " <> key)
         end
         IO.puts("Waiting for another message")
-        watch(key, pid)
+        watch(pid, key)
       {:done, final} ->
         IO.puts("Got final message: " <> final)
         IO.puts(decode(final) <> decode(str))
       msg ->
         IO.inspect(msg)
-        watch(str, pid)
+        watch(pid, str)
     end
   end
 
   def decode(string) do
-    string
-    |> String.graphemes()
-    |> Enum.map(&to_ascii/1)
-    |> Enum.join()
+    array_of_emojis = String.graphemes(string)
+    for emoji <- array_of_emojis,
+      into: "",
+      do: to_ascii(emoji)
   end
 
   def encode(string) do
-    string
-    |> String.graphemes()
-    |> Enum.map(&to_emoji/1)
-    |> Enum.join()
+    array_of_ascii = String.graphemes(string)
+    for ascii <- array_of_ascii,
+      into: "",
+      do: to_emoji(ascii)
   end
 
   mapping = %{
