@@ -1,14 +1,14 @@
 defmodule Challenge6 do
-  # elixir --name challenge6@10.31.1.161 --cookie AVISI-359GDSH249TNH9 -S mix run -e "Challenge6.secret()" --no-halt
+  # elixir --name challenge6@10.31.1.161 --cookie AVISI-8SGCHH80DTK80ICD7UI1 -S mix run -e "Challenge6.secret()" --no-halt
   def secret() do
-    key = "YG595DG"
+    key = "7W9PQLDM6JHSIHSRXKC1"
     key_emoji = encode(key)
     len = String.length(key_emoji) - 1
     receive do
       {^key_emoji, client} ->
-        send(client, {:done, encode("APPEND YOUR FETCHED KEY TO AVISI-")})
+        send(client, {:done, encode("APPEND YOUR FETCHED KEY THIS STRING AVISI-")})
       {emoji_index, client} ->
-        :timer.sleep(1000 * 5)
+        :timer.sleep(1000 * 2)
         emoji_index
         |> decode()
         |> Integer.parse()
