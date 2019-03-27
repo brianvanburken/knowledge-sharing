@@ -20,5 +20,5 @@ The file is broken down like this: `<key>[<length of bytes>]`
 ### Specification
 
 ```
-Z[4]R[5]Z[36]R[56]Z[5]R[16]Z[4]R[1]Z[20]R[43]Z[40]R[3]Z[34]R[13]Z[70]R[105]
+Z[4]R[5]Z[36]R[56]Z[5]R[16]Z[4]R[1]Z[20]R[43]Z[40]R[3]Z[34]R[13]Z[50]R[105]
 ```
