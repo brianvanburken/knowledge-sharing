@@ -8,4 +8,4 @@ We should automate this!
 Build a function that decodes a string of our secret emoji language and returns
 the ASCII equivalent. Use this function to decode the secret key send to us:
 
-😀😱😜😫😜🤕😊🤑😅🤬😇😙😛
+😀😱😜😫😜🤕😅🤩😝☺️😓😝🙂😎😭😜😜😍😢🤔😜😱🤬🥺🤯🤭

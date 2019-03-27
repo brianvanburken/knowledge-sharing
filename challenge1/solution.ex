@@ -4,9 +4,9 @@ defmodule Solution do
 
   ## Examples
 
-      iex> import_file("solution.ex")
-      iex> Solution.decode("😀😱😜😫😜")
-      "AVISI"
+  iex> import_file("solution.ex")
+  iex> Solution.decode("😀😱😜😫😜")
+  "AVISI"
 
   """
   def decode(string) do
@@ -14,6 +14,14 @@ defmodule Solution do
     for emoji <- array_of_emojis,
       into: "",
       do: to_ascii(emoji)
+  end
+
+  # this is needed to generate the secret key
+  def encode(string) do
+    array_of_ascii = String.graphemes(string)
+    for ascii <- array_of_ascii,
+      into: "",
+      do: to_emoji(ascii)
   end
 
   mapping = %{
@@ -59,5 +67,6 @@ defmodule Solution do
 
   for { emoji, ascii } <- mapping do
     def to_ascii(unquote(emoji)), do: unquote(ascii)
+    def to_emoji(unquote(ascii)), do: unquote(emoji)
   end
 end
