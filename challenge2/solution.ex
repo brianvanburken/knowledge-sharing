@@ -1,25 +1,26 @@
-defmodule Challenge2 do
-  def parse(file_name) do
-    case File.read(file_name) do # first we read the file
-      {:ok, contents} -> # if everything is ok we get the binary contents
-        # pattern match the specification and extract each part fromt the content
-        <<_::binary-size(54),
-          a::binary-size(1),
-          _::binary-size(2),
-          b::binary-size(1),
-          _::binary-size(2),
-          c::binary-size(1),
-          _::binary-size(30),
-          d::binary-size(3),
-          _::binary-size(30),
-          e::binary-size(2),
+defmodule Solution do
+    def repair(file_name) do
+    case File.read(file_name) do
+      {:ok, contents} ->
+        <<a::binary-size(4),
+          _::binary-size(5),
+          b::binary-size(36),
+          _::binary-size(56),
+          c::binary-size(5),
+          _::binary-size(16),
+          d::binary-size(4),
           _::binary-size(1),
-          f::binary-size(1),
-          _::binary-size(10),
-          g::binary-size(3),
+          f::binary-size(20),
+          _::binary-size(43),
+          e::binary-size(40),
+          _::binary-size(3),
+          g::binary-size(34),
+          _::binary-size(13),
+          h::binary-size(70),
           _::binary>> = contents
-        # return the string in correct order
-        e <> f <> g <> a <> c <> b <> d
+
+        zip_contents = a <> b <> c <> d <> e <> f <> g <> h
+        File.write(file_name, zip_contents)
     end
   end
 end

@@ -1,24 +1,24 @@
 # Challenge 2
 
-Our secret informant was not satisfied with the secret emoji language. He wanted
-to try something else. He sent us a binary file and hid our secret key inside.
-He broke the key in parts and scrambled the order. We need to extract the pieces
-and put them back together in the correct order. He was able to send us the
-specification which we already decoded. Below you can read the specification.
-The binary file is stored in a ZIP file which is password protected. We can open
-it using the secret key we got from the previous correspondence.
+Our secret informant was not satisfied with the secret emoji language. So he
+decided to throw off the government hackers and create a corrupt ZIP file.
+Security by obscurity! Nice!
 
-## Secret specification
+But, we still need the data.. Luckily for us, the informant sends the specification
+to repair with the ZIP file. The parts are in the correct order and only some
+random data inserted in the file. So we need to clean the garbage out. After
+cleaning we should open the ZIP file with the key we got from our previous challenge.
+
+## Repair specification
 
 ### Legenda
+- `R` = random data
+- `Z` = our zip data
 
-- `R` = key for random data
-- `S` = key for our secret data
-
-Parts of the binary sequence is brokend down like this: `<key>[<length of bytes>](<order in secret key>)`
+The file is broken down like this: `<key>[<length of bytes>]`
 
 ### Specification
 
 ```
-R[054]()S[001](3)R[002]()S[001](4)R[002]()S[001](5)R[030]()S[003](6)R[030]()S[002](0)R[001]()S[001](1)R[010]()S[003](2)R[102]()
+Z[4]R[5]Z[36]R[56]Z[5]R[16]Z[4]R[1]Z[20]R[43]Z[40]R[3]Z[34]R[13]Z[70]R[105]
 ```

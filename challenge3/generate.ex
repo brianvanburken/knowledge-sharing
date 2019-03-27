@@ -1,34 +1,42 @@
 defmodule Generate do
-  def corrupt do
-    {:ok, contents} = File.read("./challenge3-original.zip")
+  # Generate.create_bin("challenge2.bin")
+  def create_bin(file_name) do
+    # our key
+    key = "AVISI-dJ1Neg"
 
-    <<part1::binary-size(4),
-      part2::binary-size(36),
-      part3::binary-size(5),
-      part4::binary-size(4),
-      part5::binary-size(20),
-      part6::binary-size(40),
-      part7::binary-size(34),
-      part8::binary-size(70)>> = contents
+    # we destruct our key into the specific parts
+    <<
+    a::binary-size(2), # AV
+    b::binary-size(1), # I
+    c::binary-size(3), # SI-
+    d::binary-size(1), # d
+    e::binary-size(1), # J
+    f::binary-size(1), # 1
+    g::binary-size(3) # Neg
+    >> = key
 
-    corrupt_zip =
-      part1 <>
-      :crypto.strong_rand_bytes(5) <>
-      part2 <>
-      :crypto.strong_rand_bytes(56) <>
-      part3 <>
-      :crypto.strong_rand_bytes(16) <>
-      part4 <>
-      :crypto.strong_rand_bytes(1) <>
-      part5 <>
-      :crypto.strong_rand_bytes(43) <>
-      part6 <>
-      :crypto.strong_rand_bytes(3) <>
-      part7 <>
-      :crypto.strong_rand_bytes(13) <>
-      part8 <>
-      :crypto.strong_rand_bytes(105)
+    # we generate the binary string with random data
+    binary_data =
+      random_string(54)
+      <> d <> # 3
+      random_string(2)
+      <> e <> # 4
+      random_string(2)
+      <> f <> # 5
+      random_string(30)
+      <> g <> # 6
+      random_string(30)
+      <> a <> # 0
+      random_string(1)
+      <> b <> # 1
+      random_string(10)
+      <> c <> # 2
+      random_string(102)
 
-    File.write("./challenge3-corrupt.zip", corrupt_zip)
+    # here we write the binary_data to a file
+    :ok = File.write(file_name, binary_data, [:binary])
   end
+
+  # Generates a random string for the given length
+  def random_string(length), do: :crypto.strong_rand_bytes(length)
 end
