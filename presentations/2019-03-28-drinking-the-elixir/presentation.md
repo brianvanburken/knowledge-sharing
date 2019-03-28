@@ -523,10 +523,14 @@ iex(normal@10.1.0.1)> flush()
 # Challenges!
 
 ---
+[.autoscale: true]
 
-## Challenges (max. 3 persoon):
+**Challenges (max. 3 persoon):**
+http://35.204.122.26:8000/
+<br/>
+<br/>
 
-## Slides:
+**Slides:**
 github.com/brianvanburken/knowledge-sharing/
 
 **presentations > 2019-03-28-drinking-the-elixir**
