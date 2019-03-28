@@ -6,7 +6,7 @@ iex> Node.connect(server)
 iex> pid = Node.spawn_link(server, fn -> Challenge6.secret() end)
 iex> watcher = spawn_link(Solution, :watch, [pid])
 iex> for n <- 0..19 do
-...>   emoji_n = n |> Integer.to_string() |> Solution.encode()
+...>   emoji_n = Solution.encode(Integer.to_string(n))
 ...>   send(pid, {emoji_n, watcher})
 ...> end
 
