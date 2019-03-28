@@ -1,4 +1,4 @@
-iex --name foo@185.65.55.194 --cookie AVISI-8SGCHH80DTK80ICD7UI1
+iex --name foo@185.65.55.194 --cookie AVISI-NQ0LXKG00XSGEMUWLTZ5
 
 iex> import_file("solution.ex")
 iex> server = :"challenge5@35.204.143.241"
