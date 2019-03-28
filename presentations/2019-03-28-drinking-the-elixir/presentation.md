@@ -524,12 +524,11 @@ iex(normal@10.1.0.1)> flush()
 
 ---
 
-## Repository:
-github.com/avisi/techday_elixir
+## Challenges (max. 3 persoon):
 
 ## Slides:
 github.com/brianvanburken/knowledge-sharing/
 
-**presentations > Drinking the Elixir**
+**presentations > 2019-03-28-drinking-the-elixir**
 
 ![right fit](assets/challenges.jpg)
