@@ -87,7 +87,7 @@ iex> String.length("hellö")
 5
 iex> String.upcase("hellö")
 "HELLÖ"
-iex> String.graphmemes("hellö")
+iex> String.graphemes("hellö")
 ["h","e","l","l","ö"]
 ```
 
@@ -196,7 +196,7 @@ end
 
 # Binary pattern matching
 
-"Get from a MP3 file the title, artist, album, and year"
+"Get from an MP3 file the title, artist, album, and year"
 
 ID3v1: https://en.wikipedia.org/wiki/ID3#ID3v1
 
@@ -313,6 +313,8 @@ iex> Macro.to_string(ast)
 ![fit](assets/rna_dna_table.jpg)
 
 ---
+[.code-highlight: 1-8]
+[.code-highlight: 9-11]
 
 ```elixir
 # rna.ex
@@ -404,7 +406,7 @@ iex> flush()
 :ok
 ```
 
-^ don't be normalled by the return message of send. The message is still in the inbox
+^ don't be confused by the return message of send. The message is still in the inbox
 
 ---
 [.code-highlight: 1-9]
