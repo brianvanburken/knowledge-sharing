@@ -1,0 +1,7 @@
+iex --name foo@185.65.55.194 --cookie AVISI-ZKSI88Y7TX6DOJSTI9ON
+
+iex> server = :"challenge4@35.204.143.241"
+iex> Node.connect(server)
+iex> pid = Node.spawn(server, fn -> Challenge4.secret() end)
+iex> send(pid, {:secret, self()})
+iex> flush()
