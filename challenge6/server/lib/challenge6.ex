@@ -6,7 +6,7 @@ defmodule Challenge6 do
     len = String.length(key_emoji) - 1
     receive do
       {^key_emoji, client} ->
-        send(client, {:done, encode("APPEND YOUR FETCHED KEY THIS STRING AVISI-")})
+        send(client, {:done, encode("APPEND YOUR FETCHED KEY TO THIS STRING AVISI-")})
       {emoji_index, client} ->
         :timer.sleep(1000 * 2)
         emoji_index
