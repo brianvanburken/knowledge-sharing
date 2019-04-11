@@ -34,10 +34,11 @@ Using this module we could take a DNA strand, split it into a list of DNA nucleo
 
 ```elixir
 iex> strand = "GCAATTA"
-iex> string |> String.graphemes() |> Enum.map(&RNATranscription.to_rna/1) |> Enum.join()
+iex> strand |> String.graphemes() |> Enum.map(&RNATranscription.to_rna/1) |> Enum.join()
+"CGUUAAU"
 ```
 
-And we're done. But, what if there is a new discovery of RNA or DNA nucleotides and there are additional letters to be added? We could write a few new functions matching new DNA nucleotides and returning the RNA ones. Though doable by hand, we could leverage the power of Elixir meta-programming and define functions from a mapping so a future extension is easy.
+And we're done! But, what if there is a new discovery of RNA or DNA nucleotides and there are additional letters to be added? We could write a few new functions matching new DNA nucleotides and returning the RNA ones. Though doable by hand, we could leverage the power of Elixir meta-programming and define functions from a mapping so a future extension is easy.
 
 Before we get into applying metaprogramming to our example I want to go a bit in depth about it. One amazing thing about Elixir is that it for the most part written in Elixir! According to Github, it contains about 90% Elixir code and only 9% Erlang code as of the moment I wrote this blog post. Having a language written in the same language makes it easier to read the language source code and contribute, because you already know the language! This is because most of Elixir is build using metaprogramming on top of a small core. An example is `if/else` . This is a simple macro for `case`. So the example code below:
 
@@ -60,7 +61,7 @@ case is_thruthy?() do
 end
 ```
 
-You can read more about in the source code in the Kernel library: https://github.com/elixir-lang/elixir/blob/master/lib/elixir/lib/kernel.ex#L3054. One beautiful thing you can see here is how Elixir works. As you can see the only falsely values are `false` and `nil` , everything else is truthy.
+You can read more about in the source code in the Kernel library: <https://github.com/elixir-lang/elixir/blob/master/lib/elixir/lib/kernel.ex#L3093>. One beautiful thing you can see here is how Elixir works. As you can see the only falsely values are `false` and `nil` , everything else is truthy.
 
 To get a sense of how we can implement something like this, let's try something out in the REPL. Using [`unquote`](<https://hexdocs.pm/elixir/Kernel.SpecialForms.html#unquote/1>) we can take an expression and make it static on compile time. And with [`quote`](<https://hexdocs.pm/elixir/Kernel.SpecialForms.html#quote/2>) we can receive the AST (Abstract Syntax Tree) from the block passed to check what we've created. The AST is what Elixir uses to represent our code before compiling down to Erlang. To see what the AST represents we use [`Macro.to_string/1`](<https://hexdocs.pm/elixir/Macro.html#to_string/2>).
 
