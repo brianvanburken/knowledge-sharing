@@ -43,9 +43,9 @@ Before we get into applying metaprogramming to our example I want to go a bit in
 
 ```elixir
 if is_thruthy?() do
-	do_something()
+  do_something()
 else
-	do_something_else()
+  do_something_else()
 end
 ```
 
