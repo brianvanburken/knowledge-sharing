@@ -1,17 +1,14 @@
-# ???
+# Compile-time functions in Elixir
 
-A small programming challenge that is used a lot to learn a language is translating a string to another representation. In this case, we will transcribe DNA nucleotides to RNA nucleotides and the language we will be using is Elixir. Elixir allows us to do some powerful stuff like pattern matching al the way down to the [binary level](<http://benjamintan.io/blog/2014/06/10/elixir-bit-syntax-and-id3/>).
+A small programming challenge that is used a lot to learn a language is translating a string to another representation. In this case, we will transcribe DNA nucleotides to RNA nucleotides and the language we will be using is Elixir. Elixir allows us to do some powerful stuff like pattern matching all the way down to the [binary level](<http://benjamintan.io/blog/2014/06/10/elixir-bit-syntax-and-id3/>).
 
-To solve our challenge this we need to know the mapping between the nucleotides that make up a DNA strand and their representation in RNA. The mapping is A to U, G to C, T to A, and C to G. I've drawn out an example below.
+To solve our challenge we need to know the mapping between the nucleotides that make up a DNA strand and their representation in RNA. The mapping is A to U, G to C, T to A, and C to G. I've drawn out an example below.
 
 ![](rna_transcription.jpg)
 
-
-
 So let's implement this in Elixir! We can define multiple functions with the same name, called same head functions, and use pattern matching on the argument to represent the mapping between the nucleotides.
 
-Doing so we end up with the code below.
-
+The mapping can be described as below.
 
 ```elixir
 defmodule RNATranscription do
@@ -38,9 +35,9 @@ iex> strand |> String.graphemes() |> Enum.map(&RNATranscription.to_rna/1) |> Enu
 "CGUUAAU"
 ```
 
-And we're done! But, what if there is a new discovery of RNA or DNA nucleotides and there are additional letters to be added? We could write a few new functions matching new DNA nucleotides and returning the RNA ones. Though doable by hand, we could leverage the power of Elixir meta-programming and define functions from a mapping so a future extension is easy.
+And we're done! But, what if there is a new discovery of RNA or DNA nucleotides and there are additional letters to be added? We could write a few new functions matching new DNA nucleotides and returning the RNA ones. Though doable by hand, we could leverage the power of Elixir metaprogramming and define functions from a mapping so a future extension is easy.
 
-Before we get into applying metaprogramming to our example I want to go a bit in depth about it. One amazing thing about Elixir is that it for the most part written in Elixir! According to Github, it contains about 90% Elixir code and only 9% Erlang code as of the moment I wrote this blog post. Having a language written in the same language makes it easier to read the language source code and contribute, because you already know the language! This is because most of Elixir is build using metaprogramming on top of a small core. An example is `if/else` . This is a simple macro for `case`. So the example code below:
+Before we get into applying metaprogramming to our example I want to go a bit in depth about it. One amazing thing about Elixir is that it is for the most part written in Elixir! According to Github, it contains about 90% Elixir code and only 9% Erlang code as of the moment I wrote this blog post. Having a language written in the same language makes it easier to read the language source code and contribute, because you already know the language! This is because most of Elixir is build using metaprogramming on top of a small core. An example is `if/else` . This is a simple macro for `case`. So the example code below:
 
 ```elixir
 if is_thruthy?() do
@@ -108,6 +105,6 @@ iex> RNATranscription.to_rna("T")
 "A"
 ```
 
-We've created compile-time functions! We could go even further and automate it further by hosting the mapping somewhere, use a hook to create an Elixir package out of it when it changes, and publish it without interaction of a developer.
+We've created compile-time functions! We could go even further and automate it by hosting the mapping somewhere, use a hook to create an Elixir package out of it when it changes, and publish it without interaction of a developer.
 
 Elixir macros allow us to create awesome stuff. Though this awesomeness does come with a word of caution. It might be harder to reason about what your code does and where some functions come from. New developers to your project with macros might have a hard time finding their way around. It is a tradeoff you have to make. Some would argue that using macros for such a small mapping we used might be overkill and I won't argue with that. But, it is fun to write it and show you how you can define compile-time functions.
