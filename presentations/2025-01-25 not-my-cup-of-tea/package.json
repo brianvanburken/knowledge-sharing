@@ -1,0 +1,7 @@
+{
+  "name": "not-my-cup-of-tea",
+  "dependencies": {
+    "elm-format": "^0.8.7",
+    "elm-test": "^0.19.1-revision12"
+  }
+}
