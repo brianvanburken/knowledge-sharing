@@ -3,11 +3,11 @@ module Main exposing (main)
 import Browser
 import Html exposing (Html)
 import Html.Events
-
+import Decrement
 
 type alias Model =
     { count : Int
-    , subModel : Decrement.Model Msg
+    , subModel : Decrement.Model
     }
 
 
@@ -30,15 +30,15 @@ update msg model =
         Increment ->
             { model | count = model.count + 1 }
 
-        Decrement amount ->
-            { model | count = model.count - amount }
+        Decrement ->
+            { model | count = model.count - 1 }
 
         SubMsg subMsg ->
             { model | subModel = Decrement.update subMsg model.subModel }
 
 
 view : Model -> Html Msg
-view { count, subModel, subModel2 } =
+view { count, subModel } =
     Html.div []
         [ Html.div [] [ Html.text (String.fromInt count) ]
         , Html.button [ Html.Events.onClick Increment ] [ Html.text "+1" ]

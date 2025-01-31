@@ -30,6 +30,6 @@ view : Model -> Html Msg
 view model =
     Html.div []
         [ Html.div [] [ Html.text (String.fromInt model.count) ]
-        , Html.button [ Html.Events.onClick (model.tagger Decrement) ] [ Html.text "-1" ]
-        , Html.button [] [ Html.text "-2 (parent)" ]
+        , Html.button [ Html.Events.onClick (Decrement) ] [ Html.text "-1" ]
+        , Html.button [] [ Html.text "-1 (parent)" ]
         ]

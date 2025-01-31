@@ -29,7 +29,7 @@ type Msg
     = Increment
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         Increment ->
