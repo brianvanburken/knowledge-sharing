@@ -14,37 +14,19 @@ view : {} -> Html ()
 view _ =
     Html.div
         []
-        [ validEmail1
+        [ Email.fromString "hello@example.com"
+            |> viewEmail
         , Html.br [] []
-        , validEmail2
+        , Email.fromString "bad"
+            |> viewEmail
         ]
 
 
-validEmail1 : Html msg
-validEmail1 =
-    let
-        emailResult : Result String Email
-        emailResult =
-            Email.fromString "hello@example.com"
-    in
+viewEmail : Result String Email -> Html msg
+viewEmail emailResult =
     case emailResult of
         Ok email ->
             Html.text ("Valid email: " ++ email)
 
         Err error ->
-            Html.text error
-
-
-validEmail2 : Html msg
-validEmail2 =
-    let
-        emailResult : Result String Email
-        emailResult =
-            Ok "hello"
-    in
-    case emailResult of
-        Ok email ->
-            Html.text ("Valid email: " ++ email)
-
-        Err error ->
-            Html.text error
+            Html.text ("Invalid email: " ++ error)

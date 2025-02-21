@@ -1,8 +1,8 @@
 module Main exposing (main)
 
 import Browser
+import LindaDrawer
 import Html exposing (Html)
-import SortedList
 
 
 main : Program () {} ()
@@ -12,10 +12,9 @@ main =
 
 view : {} -> Html ()
 view _ =
+    let
+        {-| Initialize the drawer here -}
+    in
     Html.div []
-        [ SortedList.config [ "a", "b", "c" ] SortedList.Descending
-            |> (\config ->
-                    { config | direction = SortedList.Ascending }
-               )
-            |> SortedList.render
+        [ {-| Configure the drawer here -}
         ]
