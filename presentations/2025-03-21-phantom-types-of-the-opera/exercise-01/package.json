@@ -1,0 +1,7 @@
+{
+  "name": "2025-02-21-it-is-not-clear-it-is-opaque",
+  "dependencies": {
+    "elm-format": "^0.8.7",
+    "elm-test": "^0.19.1-revision15"
+  }
+}
